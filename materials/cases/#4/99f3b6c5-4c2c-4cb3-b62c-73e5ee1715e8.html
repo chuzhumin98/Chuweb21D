@@ -1,0 +1,1530 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sat, 10 Apr 2021 14:05:25 GMT
+Content-Type: text/html; charset=UTF-8
+X-Crawler-Transfer-Encoding: chunked
+Connection: keep-alive
+Strict-Transport-Security: max-age=31536000
+Vary: Accept-Encoding
+Vary: Cookie
+X-hacker: If you're reading this, you should visit automattic.com/jobs and apply to join the fun, mention this header.
+Host-Header: WordPress.com
+X-Crawler-Content-Encoding: gzip
+X-ac: 3.dca _dca
+Content-Length: 135193
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>2013  November  12 &laquo; Antinuclear</title>
+<link rel="stylesheet" href="https://s2.wp.com/wp-content/themes/pub/andreas04/style.css" type="text/css" media="screen" />
+<link rel="pingback" href="https://antinuclear.net/xmlrpc.php" />
+<meta name='robots' content='max-image-preview:large' />
+
+<!-- Async WordPress.com Remote Login -->
+<script id="wpcom_remote_login_js">
+var wpcom_remote_login_extra_auth = '';
+function wpcom_remote_login_remove_dom_node_id( element_id ) {
+	var dom_node = document.getElementById( element_id );
+	if ( dom_node ) { dom_node.parentNode.removeChild( dom_node ); }
+}
+function wpcom_remote_login_remove_dom_node_classes( class_name ) {
+	var dom_nodes = document.querySelectorAll( '.' + class_name );
+	for ( var i = 0; i < dom_nodes.length; i++ ) {
+		dom_nodes[ i ].parentNode.removeChild( dom_nodes[ i ] );
+	}
+}
+function wpcom_remote_login_final_cleanup() {
+	wpcom_remote_login_remove_dom_node_classes( "wpcom_remote_login_msg" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_validate" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_js" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_iframe" );
+	wpcom_remote_login_remove_dom_node_id( "wpcom_request_access_styles" );
+}
+
+// Watch for messages back from the remote login
+window.addEventListener( "message", function( e ) {
+	if ( e.origin === "https://r-login.wordpress.com" ) {
+		var data = {};
+		try {
+			data = JSON.parse( e.data );
+		} catch( e ) {
+			wpcom_remote_login_final_cleanup();
+			return;
+		}
+
+		if ( data.msg === 'LOGIN' ) {
+			// Clean up the login check iframe
+			wpcom_remote_login_remove_dom_node_id( "wpcom_remote_login_key" );
+
+			var id_regex = new RegExp( /^[0-9]+$/ );
+			var token_regex = new RegExp( /^.*|.*|.*$/ );
+			if (
+				token_regex.test( data.token )
+				&& id_regex.test( data.wpcomid )
+			) {
+				// We have everything we need to ask for a login
+				var script = document.createElement( "script" );
+				script.setAttribute( "id", "wpcom_remote_login_validate" );
+				script.src = '/remote-login.php?wpcom_remote_login=validate'
+					+ '&wpcomid=' + data.wpcomid
+					+ '&token=' + encodeURIComponent( data.token )
+					+ '&host=' + window.location.protocol
+						+ '//' + window.location.hostname;
+				document.body.appendChild( script );
+			}
+
+			return;
+		}
+
+		// Safari ITP, not logged in, so redirect
+		if ( data.msg === 'LOGIN-REDIRECT' ) {
+			window.location = 'https://wordpress.com/log-in?redirect_to=' + window.location.href;
+			return;
+		}
+
+		// Safari ITP, storage access failed, remove the request
+		if ( data.msg === 'LOGIN-REMOVE' ) {
+			var css_zap = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } @media screen and ( max-width: 782px ) { html { margin-top: 0 !important; } * html body { margin-top: 0 !important; } }';
+			var style_zap = document.createElement( 'style' );
+			style_zap.type = 'text/css';
+			style_zap.appendChild( document.createTextNode( css_zap ) );
+			document.body.appendChild( style_zap );
+
+			var e = document.getElementById( 'wpcom_request_access_iframe' );
+			e.parentNode.removeChild( e );
+
+			document.cookie = 'wordpress_com_login_access=denied; path=/; max-age=31536000';
+
+			return;
+		}
+
+		// Safari ITP
+		if ( data.msg === 'REQUEST_ACCESS' ) {
+			console.log( 'request access: safari' );
+
+			// Check ITP iframe enable/disable knob
+			if ( wpcom_remote_login_extra_auth !== 'safari_itp_iframe' ) {
+				return;
+			}
+
+			// If we are in a "private window" there is no ITP.
+			var private_window = false;
+			try {
+				var opendb = window.openDatabase( null, null, null, null );
+			} catch( e ) {
+				private_window = true;
+			}
+
+			if ( private_window ) {
+				console.log( 'private window' );
+				return;
+			}
+
+			var iframe = document.createElement( 'iframe' );
+			iframe.id = 'wpcom_request_access_iframe';
+			iframe.setAttribute( 'scrolling', 'no' );
+			iframe.setAttribute( 'sandbox', 'allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-top-navigation-by-user-activation' );
+			iframe.src = 'https://r-login.wordpress.com/remote-login.php?wpcom_remote_login=request_access&origin=' + encodeURIComponent( data.origin ) + '&wpcomid=' + encodeURIComponent( data.wpcomid );
+
+			var css = 'html { -webkit-transition: margin-top 1s; transition: margin-top 1s; } /* 9001 */ html { margin-top: 46px !important; } * html body { margin-top: 46px !important; } @media screen and ( max-width: 660px ) { html { margin-top: 71px !important; } * html body { margin-top: 71px !important; } #wpcom_request_access_iframe { display: block; height: 71px !important; } } #wpcom_request_access_iframe { border: 0px; height: 46px; position: fixed; top: 0; left: 0; width: 100%; min-width: 100%; z-index: 99999; background: #23282d; } ';
+
+			var style = document.createElement( 'style' );
+			style.type = 'text/css';
+			style.id = 'wpcom_request_access_styles';
+			style.appendChild( document.createTextNode( css ) );
+			document.body.appendChild( style );
+
+			document.body.appendChild( iframe );
+		}
+
+		if ( data.msg === 'DONE' ) {
+			wpcom_remote_login_final_cleanup();
+		}
+	}
+}, false );
+
+// Inject the remote login iframe after the page has had a chance to load
+// more critical resources
+window.addEventListener( "DOMContentLoaded", function( e ) {
+	var iframe = document.createElement( "iframe" );
+	iframe.style.display = "none";
+	iframe.setAttribute( "scrolling", "no" );
+	iframe.setAttribute( "id", "wpcom_remote_login_key" );
+	iframe.src = "https://r-login.wordpress.com/remote-login.php"
+		+ "?wpcom_remote_login=key"
+		+ "&origin=aHR0cHM6Ly9hbnRpbnVjbGVhci5uZXQ%3D"
+		+ "&wpcomid=8645821"
+		+ "&time=1618063524";
+	document.body.appendChild( iframe );
+}, false );
+</script>
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//antinuclear.wordpress.com' />
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//s.pubmine.com' />
+<link rel='dns-prefetch' href='//x.bidswitch.net' />
+<link rel='dns-prefetch' href='//static.criteo.net' />
+<link rel='dns-prefetch' href='//ib.adnxs.com' />
+<link rel='dns-prefetch' href='//aax.amazon-adsystem.com' />
+<link rel='dns-prefetch' href='//bidder.criteo.com' />
+<link rel='dns-prefetch' href='//cas.criteo.com' />
+<link rel='dns-prefetch' href='//gum.criteo.com' />
+<link rel='dns-prefetch' href='//ads.pubmatic.com' />
+<link rel='dns-prefetch' href='//gads.pubmatic.com' />
+<link rel='dns-prefetch' href='//tpc.googlesyndication.com' />
+<link rel='dns-prefetch' href='//ad.doubleclick.net' />
+<link rel='dns-prefetch' href='//googleads.g.doubleclick.net' />
+<link rel='dns-prefetch' href='//www.googletagservices.com' />
+<link rel='dns-prefetch' href='//cdn.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.g.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.swid.switchadhub.com' />
+<link rel='dns-prefetch' href='//a.teads.tv' />
+<link rel='dns-prefetch' href='//prebid.media.net' />
+<link rel='dns-prefetch' href='//adserver-us.adtech.advertising.com' />
+<link rel='dns-prefetch' href='//fastlane.rubiconproject.com' />
+<link rel='dns-prefetch' href='//prebid-server.rubiconproject.com' />
+<link rel='dns-prefetch' href='//hb-api.omnitagjs.com' />
+<link rel='dns-prefetch' href='//mtrx.go.sonobi.com' />
+<link rel='dns-prefetch' href='//apex.go.sonobi.com' />
+<link rel='dns-prefetch' href='//u.openx.net' />
+<link rel="alternate" type="application/rss+xml" title="Antinuclear &raquo; Feed" href="https://antinuclear.net/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Antinuclear &raquo; Comments Feed" href="https://antinuclear.net/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1612197847h&ver=5.7.1-RC1-50691"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s0.wp.com/_static/??-eJydkt1uwyAMhV9oxEurRsrFtGeB4DG3EBA2jfL2g/1m69ZNu0Ecc74j2QaWpKY4C84Coajki6OZYUlTDIoDeVy/qG5ivoENZnx0H2DMVlsG56PR/sL7ZnOlSoPZ1ZeMcO5vu323A1PI2xY4nZQnk3VegWX1+IegZ4rhiJJ0w/UaiyiXyf43Imuh2fEv+BRfsV136PZgieW9pr5HN4Nu7dd6SFqaI6AljR5DtV3DXjZiTMrIrOoZqAQljxW8XNCWI+tQGLDU13girHNaQDAkrwV/anUT4DCq2lqdTJw/CfXgNeVraMb2U+rVQXVtZIPuw10/9MMwDuN4OD4B7zb4sQ==?cssminify=yes' type='text/css' media='all' />
+<style id='wp-block-library-inline-css'>
+.has-text-align-justify {
+	text-align:justify;
+}
+</style>
+<link rel='stylesheet' id='print-css-1-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<style id='jetpack-global-styles-frontend-style-inline-css'>
+:root { --font-headings: unset; --font-base: unset; --font-headings-default: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif; --font-base-default: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;}
+</style>
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/wp-content/themes/h4/global.css?m=1420737423h&cssminify=yes' type='text/css' media='all' />
+<script id='wpcom-actionbar-placeholder-js-extra'>
+var actionbardata = {"siteID":"8645821","siteName":"Antinuclear","siteURL":"https:\/\/antinuclear.net","icon":"<img alt='' src='https:\/\/s2.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/andreas04","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fantinuclear.net%2F2013%2F11%2F12%2Faustralias-coal-and-gas-profits-at-the-cost-of-climate-change%2F&signup_flow=account&domain=antinuclear.net","themeURL":"","xhrURL":"https:\/\/antinuclear.net\/wp-admin\/admin-ajax.php","nonce":"57135b8c49","isSingular":"","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"9d7d8c8c26\" \/>","referer":"https:\/\/antinuclear.net\/2013\/11\/12\/","canFollow":"1","feedID":"339368","statusMessage":"","customizeLink":"https:\/\/antinuclear.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fantinuclear.wordpress.com%2F2013%2F11%2F12%2F","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Andreas04","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/read\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 753 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/wordpress.com\/log-in?redirect_to=https%3A%2F%2Fantinuclear.net%2F2013%2F11%2F12%2Faustralias-coal-and-gas-profits-at-the-cost-of-climate-change%2F&signup_flow=account&domain=antinuclear.net\">Log in now.<\/a>","stats":"Stats"}};
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyFysEKwjAMgOEXMitlsOFBfJY540hp0pqkuL29CvMgCJ7+w/+FR4W5iKN4SBZqMWc0mxbskh3C9+VyoYzQDPUFxIHkVn44zQ5Vy7p9Hsmc2xXtPdO9oW57Oib5i4Bp0clxx2c+xSGOfeyH8ZieetdG7A=='></script>
+<script type='text/javascript'>
+	window.addEventListener( 'DOMContentLoaded', function() {
+		rltInitialize( {"token":null,"iframeOrigins":["https:\/\/widgets.wp.com"]} );
+	} );
+</script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://antinuclear.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress.com" />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="November 12, 2013 &#8211; Antinuclear" />
+<meta property="og:site_name" content="Antinuclear" />
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@ChristinaMac1" />
+<meta name="twitter:site" content="@ChristinaMac1" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s1.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon" href="https://s2.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://antinuclear.net/?openidserver=1' />
+<link rel='openid.delegate' href='https://antinuclear.net/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://antinuclear.net/osd.xml" title="Antinuclear" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="theme-color" content="#ffffff" />
+	<style type="text/css">
+		body { background: #ffffff; }
+	</style>
+		<style type="text/css">
+		#container { background: none; border: none; }
+	</style>
+	<meta name="application-name" content="Antinuclear" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="Australian news, and some related international items" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://antinuclear.net/feed/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="13 posts published by Christina MacPherson on November 12, 2013" />
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #ffffff; }
+</style>
+			<script type="text/javascript">
+
+			window.doNotSellCallback = function() {
+
+				var linkElements = [
+					'a[href="https://wordpress.com/?ref=footer_blog"]',
+					'a[href="https://wordpress.com/?ref=footer_website"]',
+					'a[href="https://wordpress.com/?ref=vertical_footer"]',
+					'a[href^="https://wordpress.com/?ref=footer_segment_"]',
+				].join(',');
+
+				var dnsLink = document.createElement( 'a' );
+				dnsLink.href = 'https://wordpress.com/advertising-program-optout';
+				dnsLink.classList.add( 'do-not-sell-link' );
+				dnsLink.rel = 'nofollow';
+				dnsLink.style.marginLeft = '0.5em';
+				dnsLink.textContent = 'Do Not Sell My Personal Information';
+
+				var creditLinks = document.querySelectorAll( linkElements );
+
+				if ( 0 === creditLinks.length ) {
+					return false;
+				}
+
+				Array.prototype.forEach.call( creditLinks, function( el ) {
+					el.insertAdjacentElement( 'afterend', dnsLink );
+				});
+
+				return true;
+			};
+
+		</script>
+				<script type="text/javascript">
+		function __ATA_CC() {var v = document.cookie.match('(^|;) ?personalized-ads-consent=([^;]*)(;|$)');return v ? 1 : 0;}
+		var __ATA_PP = { 'pt': 3, 'ht': 0, 'tn': 'andreas04', 'amp': false, 'consent': __ATA_CC(), 'gdpr_applies': false, 'ad': { 'label': { 'text': 'Advertisements' }, 'reportAd': { 'text': 'Report this ad' } }, 'siteid': 8982, 'blogid': 8645821 };
+		var __ATA = __ATA || {};
+		__ATA.cmd = __ATA.cmd || [];
+		__ATA.criteo = __ATA.criteo || {};
+		__ATA.criteo.cmd = __ATA.criteo.cmd || [];
+		</script>
+		<script type="text/javascript">
+		(function(){var g=Date.now||function(){return+new Date};function h(a,b){a:{for(var c=a.length,d="string"==typeof a?a.split(""):a,e=0;e<c;e++)if(e in d&&b.call(void 0,d[e],e,a)){b=e;break a}b=-1}return 0>b?null:"string"==typeof a?a.charAt(b):a[b]};function k(a,b,c){c=null!=c?"="+encodeURIComponent(String(c)):"";if(b+=c){c=a.indexOf("#");0>c&&(c=a.length);var d=a.indexOf("?");if(0>d||d>c){d=c;var e=""}else e=a.substring(d+1,c);a=[a.substr(0,d),e,a.substr(c)];c=a[1];a[1]=b?c?c+"&"+b:b:c;a=a[0]+(a[1]?"?"+a[1]:"")+a[2]}return a};var l=0;function m(a,b){var c=document.createElement("script");c.src=a;c.onload=function(){b&&b(void 0)};c.onerror=function(){b&&b("error")};a=document.getElementsByTagName("head");var d;a&&0!==a.length?d=a[0]:d=document.documentElement;d.appendChild(c)}function n(a){var b=void 0===b?document.cookie:b;return(b=h(b.split("; "),function(c){return-1!=c.indexOf(a+"=")}))?b.split("=")[1]:""}function p(a){return"string"==typeof a&&0<a.length}
+		function r(a,b,c){b=void 0===b?"":b;c=void 0===c?".":c;var d=[];Object.keys(a).forEach(function(e){var f=a[e],q=typeof f;"object"==q&&null!=f||"function"==q?d.push(r(f,b+e+c)):null!==f&&void 0!==f&&(e=encodeURIComponent(b+e),d.push(e+"="+encodeURIComponent(f)))});return d.filter(p).join("&")}function t(a,b){a||((window.__ATA||{}).config=b.c,m(b.url))}var u=Math.floor(1E13*Math.random()),v=window.__ATA||{};window.__ATA=v;window.__ATA.cmd=v.cmd||[];v.rid=u;v.createdAt=g();var w=window.__ATA||{},x="s.pubmine.com";
+		w&&w.serverDomain&&(x=w.serverDomain);var y="//"+x+"/conf",z=window.top===window,A=window.__ATA_PP&&window.__ATA_PP.gdpr_applies,B="boolean"===typeof A?Number(A):null,C=window.__ATA_PP||null,D=z?document.referrer?document.referrer:null:null,E=z?window.location.href:document.referrer?document.referrer:null,F,G=n("__ATA_tuuid");F=G?G:null;var H=window.innerWidth+"x"+window.innerHeight,I=n("usprivacy"),J=r({gdpr:B,pp:C,rid:u,src:D,ref:E,tuuid:F,vp:H,us_privacy:I?I:null},"",".");
+		(function(a){var b=void 0===b?"cb":b;l++;var c="callback__"+g().toString(36)+"_"+l.toString(36);a=k(a,b,c);window[c]=function(d){t(void 0,d)};m(a,function(d){d&&t(d)})})(y+"?"+J);}).call(this);
+		</script><script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_gat._anonymizeIp']);
+	_gaq.push(['_setDomainName', 'none']);
+	_gaq.push(['_setAllowLinker', true]);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="archive custom-background customizer-styles-applied highlander-enabled highlander-light">
+  <div id="container">
+
+<div id="sitetitle">
+<h1><a href="https://antinuclear.net/" rel="home">Antinuclear</a></h1>
+<h2>Australian news, and some related international items</h2>
+</div>
+
+<div id="menu">
+	<ul>
+	<li><a href="https://antinuclear.net/">Home</a></li>
+	<li class="page_item page-item-2"><a href="https://antinuclear.net/about/">1.This month</a></li>
+<li class="page_item page-item-10"><a href="https://antinuclear.net/action-australia/">Action Australia</a></li>
+<li class="page_item page-item-22295"><a href="https://antinuclear.net/disclaimer/">Disclaimer</a></li>
+<li class="page_item page-item-71143 page_item_has_children"><a href="https://antinuclear.net/federal-nuclear-inquiry-submissions/">Federal Nuclear Inquiry&nbsp;SUBMISSIONS</a></li>
+<li class="page_item page-item-44453 page_item_has_children"><a href="https://antinuclear.net/nuclear-dumping/">Kimba waste dump&nbsp;Submissions</a></li>
+</ul>
+</div>
+
+    <div id="content">
+
+      <div id="left">
+
+        
+          
+              <div id="post-27195" class="entry post-27195 post type-post status-publish format-standard hentry category-australia-national category-climate-change-global-warming">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/australias-coal-and-gas-profits-at-the-cost-of-climate-change/">Australia&#8217;s  coal and gas profit at the cost of climate&nbsp;change</a></h2>
+
+                <p><b><a href="https://antinuclear.files.wordpress.com/2009/07/climate-change.gif"><img loading="lazy" data-attachment-id="1389" data-permalink="https://antinuclear.net/about/climate-change/" data-orig-file="https://antinuclear.files.wordpress.com/2009/07/climate-change.gif" data-orig-size="288,288" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="climate-change" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2009/07/climate-change.gif?w=288" data-large-file="https://antinuclear.files.wordpress.com/2009/07/climate-change.gif?w=288" class="alignleft size-thumbnail wp-image-1389" alt="climate-change" src="https://antinuclear.files.wordpress.com/2009/07/climate-change.gif?w=150&#038;h=150" width="150" height="150" srcset="https://antinuclear.files.wordpress.com/2009/07/climate-change.gif?w=150&amp;h=150 150w, https://antinuclear.files.wordpress.com/2009/07/climate-change.gif 288w" sizes="(max-width: 150px) 100vw, 150px" /></a></b></p>
+<p><em>Fossil-fuel demand is being stoked by massive subsidies, particularly in the Middle East, with the global total rising $US20 billion ($21.4 billion) in 2012 to $US544 billion. That total will rise to about $US600 billion a year by 2020, Dr Birol said.</em></p>
+<p><em>By contrast, subsidies for renewable energy rose about $US10 billion in 2012 to $US101 billion, and will reach about $US220 billion by 2035, the agency forecasts. Despite continuing to lag in support at roughly a five-to-one ratio with fossil fuels, renewable energy will account for almost half the increase in power generation to 2035, Dr Birol said.</em></p>
+<p><b style="line-height:1.5;">Climate change: Golden energy age for Australia will cost the world dearly </b><span style="line-height:1.5;">,</span><em style="line-height:1.5;"><strong> November 13, 2013 <a href="http://www.smh.com.au/environment/by/Peter-Hannam" target="_blank" rel="author">Peter Hannam</a> Environment Editor, The Sydney Morning Herald</strong></em><span style="line-height:1.5;"> Surging energy demand in Asia will deliver &#8221;a golden age&#8221; for the Australian economy but also set the world on a path of dangerous climate change as fossil fuel-sourced emissions soar, according to the International Energy Agency. <a href="https://antinuclear.net/2013/11/12/australias-coal-and-gas-profits-at-the-cost-of-climate-change/#more-27195" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></span></p>
+			<div id="atatags-26942-6071b0a4e79fb"></div>
+			
+			<script>
+				__ATA.cmd.push(function() {
+					__ATA.initDynamicSlot({
+						id: 'atatags-26942-6071b0a4e79fb',
+						location: 120,
+						formFactor: '001',
+						label: {
+							text: 'Advertisements',
+						},
+						creative: {
+							reportAd: {
+								text: 'Report this ad',
+							},
+							privacySettings: {
+								text: 'Privacy',
+								
+							}
+						}
+					});
+				});
+			</script>				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 10:42 pm --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/australia-national/" rel="category tag">AUSTRALIA - NATIONAL</a>, <a href="https://antinuclear.net/category/topics/climate-change-global-warming/" rel="category tag">climate change - global warming</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/australias-coal-and-gas-profits-at-the-cost-of-climate-change/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27193" class="entry post-27193 post type-post status-publish format-standard hentry category-aboriginal-issues category-australia-national">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/australias-racial-discrimination-against-aborigines/">Australia&#8217;s racial discrimination against&nbsp;Aborigines</a></h2>
+
+                <p><strong><span style="color:#ff0000;"><a href="https://antinuclear.files.wordpress.com/2011/02/censorship-black.gif"><img loading="lazy" data-attachment-id="8628" data-permalink="https://antinuclear.net/2011/02/12/civil-liberties-trampled-in-australias-nuclear-issues-and-anstos-secrecy/censorship-black/" data-orig-file="https://antinuclear.files.wordpress.com/2011/02/censorship-black.gif" data-orig-size="72,96" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="censorship-black" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2011/02/censorship-black.gif?w=72" data-large-file="https://antinuclear.files.wordpress.com/2011/02/censorship-black.gif?w=72" class="alignleft size-full wp-image-8628" alt="censorship-black" src="https://antinuclear.files.wordpress.com/2011/02/censorship-black.gif?w=72&#038;h=96" width="72" height="96" /></a>Aboriginal affairs: why Australia is allowing racial discrimination,</span> <em>Scan, 12 Nov 12, Annie Underwood</em> asks why we are simply standing by while Australia enforces discriminatory policies against their native people.</strong>  In a country where the majority will not accept any form of racial discrimination, how can we justify simply standing by and doing nothing whilst one of our greatest allies, Australia, enforces hugely discriminatory policies against their native people – Aboriginal and Torres Strait Islanders?&#8230;&#8230;..</p>
+<div>
+<p>the Native Title Act of 1993, which facilitates the granting of native title (i.e. right to historically held land) to indigenous communities, is seen as a step towards equality. However, the Native Title Act clearly states that when the native title rights and rights of a non-indigenous person conflict, the rights of the non-indigenous person always prevail, despite indigenous people being the ‘First Peoples’. Such a ruling breaches international human rights, as the “promotion of the interests of the many can never justify violating the human rights of the few”.</p>
+<p>Again and again the same thing can be seen within Australian politics. Self determination is a UN defined basic human right for people to be able to freely define who they are “without external compulsion or interference”. Yet the Liberal Australian government under John Howard in 2005 abolished ATSIC (the Aboriginal and Torres Strait Islander Commission) – a purpose-built democratic institution for indigenous self-determination – on the grounds that it was causing racial segregation. ATSIC was the primary means by which indigenous Australians participated in the political and decision-making system, and the subsequent mainstreaming of indigenous services into the government were seen by many as an attempt to inhibit indigenous self-determination, and limit indigenous people’s freedom to govern themselves. As noted Aboriginal anthropologist Jon Altman stated: “It is ironic that at a time when Australia engages in high risk projects to install democracy abroad, its national government is seeking to eliminate a purpose-designed democratic institution at home.”&#8230;&#8230;&#8230;<a href="http://scan.lusu.co.uk/comment/aboriginal-affairs-why-australia-is-allowing-racial-discrimination/" target="_blank">http://scan.lusu.co.uk/comment/aboriginal-affairs-why-australia-is-allowing-racial-discrimination/</a></p>
+</div>
+<div id="atatags-370373-6071b0a4ea0d3">
+        <script type="text/javascript">
+            __ATA.cmd.push(function() {
+                __ATA.initVideoSlot('atatags-370373-6071b0a4ea0d3', {
+                    sectionId: '370373',
+                    format: 'inread'
+                });
+            });
+        </script>
+    </div>				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 10:38 pm --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/topics/aboriginal-issues/" rel="category tag">aboriginal issues</a>, <a href="https://antinuclear.net/category/australia-national/" rel="category tag">AUSTRALIA - NATIONAL</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/australias-racial-discrimination-against-aborigines/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27191" class="entry post-27191 post type-post status-publish format-standard hentry category-business category-south-australia category-uranium">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/as-usas-nuclear-plants-bite-the-dust-so-do-australian-uranium-mines/">As USA&#8217;s nuclear plants bite the dust, so do Australian uranium&nbsp;mines?</a></h2>
+
+                <p><strong><a href="https://antinuclear.files.wordpress.com/2013/04/burial-uranium-industry.gif"><img loading="lazy" data-attachment-id="22770" data-permalink="https://antinuclear.net/2013/04/29/paydirt-uranium-conference-in-adelaide-more-like-a-funeral/burial-uranium-industry/" data-orig-file="https://antinuclear.files.wordpress.com/2013/04/burial-uranium-industry.gif" data-orig-size="360,349" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="burial.uranium-industry" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2013/04/burial-uranium-industry.gif?w=300" data-large-file="https://antinuclear.files.wordpress.com/2013/04/burial-uranium-industry.gif?w=360" class="alignleft size-medium wp-image-22770" alt="burial.uranium-industry" src="https://antinuclear.files.wordpress.com/2013/04/burial-uranium-industry.gif?w=300&#038;h=290" width="300" height="290" /></a>South Australian uranium Honeymoon mine to stop production, jobs in doubt  </strong><b><a href="http://news.com.au/" target="_blank">NEWS.COM.AU</a> </b>NOVEMBER 11, 2013 THE Honeymoon uranium mine in South Australia&#8217;s far northeast is expected to be mothballed. Low uranium prices and production difficulties at the plant have put pressure on the mine. The future of about 70 employees was not immediately known but far fewer employees would be needed when the mine is put under &#8220;care and maintenance&#8221;.</p>
+<p>Honeymoon, <a title="www.adelaidenow.com.au" href="http://www.adelaidenow.com.au/news/south-australia/first-ore-for-new-uranium-mine/story-e6frea83-1226189449278" target="_blank">which began producing uranium in 2011</a> , became wholly owned by Russian state company JSC Atomredmetzoloto in mid-October.</p>
+<p>Previously it had been 49 per cent owned-and-operated by Canada&#8217;s Uranium One&#8230;&#8230;..</p>
+<p>Honeymoon is about 500km north by road from Adelaide, 80kms northwest of Broken Hill.It uses an in-situ leach method &#8211; where liquids are pumped underground to dissolve the uranium with the mineral extracted from the pregnant solution at the surface. SA is Australia&#8217;s leading uranium producer with Olympic Dam and Beverley in operation. Ranger in the NT is the only other mine. The Four Mile mine &#8211; near Beverley &#8211; has been approved but is yet to be built&#8230;.. <a href="http://www.news.com.au/national/south-australia/south-australian-uranium-honeymoon-mine-to-stop-production-jobs-in-doubt/story-fnii5yv4-1226757697638" target="_blank">http://www.news.com.au/national/south-australia/south-australian-uranium-honeymoon-mine-to-stop-production-jobs-in-doubt/story-fnii5yv4-1226757697638</a></p>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 3:20 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/topics/business/" rel="category tag">business</a>, <a href="https://antinuclear.net/category/australia-national/south-australia/" rel="category tag">South Australia</a>, <a href="https://antinuclear.net/category/topics/uranium/" rel="category tag">uranium</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/as-usas-nuclear-plants-bite-the-dust-so-do-australian-uranium-mines/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27189" class="entry post-27189 post type-post status-publish format-standard hentry category-business category-northern-territory category-uranium">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/exploration-company-thundelarra-reduces-costs-sell-uranium-assets/">Exploration company Thundelarra reduces costs, sell uranium&nbsp;assets</a></h2>
+
+                <p><strong><a href="https://antinuclear.files.wordpress.com/2010/07/graph-down-uranium.gif"><img loading="lazy" data-attachment-id="5132" data-permalink="https://antinuclear.net/2010/07/01/gloomy-uranium-share-price/graph-down-uranium/" data-orig-file="https://antinuclear.files.wordpress.com/2010/07/graph-down-uranium.gif" data-orig-size="288,245" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="graph-down-uranium" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2010/07/graph-down-uranium.gif?w=288" data-large-file="https://antinuclear.files.wordpress.com/2010/07/graph-down-uranium.gif?w=288" class="alignleft size-thumbnail wp-image-5132" alt="graph-down-uranium" src="https://antinuclear.files.wordpress.com/2010/07/graph-down-uranium.gif?w=150&#038;h=127" width="150" height="127" srcset="https://antinuclear.files.wordpress.com/2010/07/graph-down-uranium.gif?w=150&amp;h=127 150w, https://antinuclear.files.wordpress.com/2010/07/graph-down-uranium.gif 288w" sizes="(max-width: 150px) 100vw, 150px" /></a>Thundelarra sells non-core Hayes Creek uranium asset<em> November 11, 2013 byProactive Investors</em> </strong>  Thundelarra (<a href="http://www.proactiveinvestors.com/companies/overview/598/thundelarra-limited-0598.html" target="_blank" rel="598">ASX:THX</a>) will sell its Hayes Creek uranium assets for a total value of $1.5 million, while neatly retaining an exposure to any future exploration success from the Northern Territory project&#8230;&#8230;.The sale is part of a new &#8220;look&#8221; Thundelarra that has rationalised non core projects, taken costs from the system and is focusing on core copper, base metal and gold exploration..</p>
+<p>&#8230;the deal removes the rent, rates and exploration commitment overheads that accompany the Hayes Creek interests&#8230;..Today&#8217;s deal further illustrates the new broom through Thundelarra, disposing of non-core assets, while focusing on core projects.  <a href="http://www.proactiveinvestors.com.au/companies/news/50073/thundelarra-sells-non-core-hayes-creek-uranium-asset-50073.html" target="_blank">http://www.proactiveinvestors.com.au/companies/news/50073/thundelarra-sells-non-core-hayes-creek-uranium-asset-50073.html</a></p>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 3:17 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/topics/business/" rel="category tag">business</a>, <a href="https://antinuclear.net/category/australia-national/northern-territory/" rel="category tag">Northern Territory</a>, <a href="https://antinuclear.net/category/topics/uranium/" rel="category tag">uranium</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/exploration-company-thundelarra-reduces-costs-sell-uranium-assets/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27187" class="entry post-27187 post type-post status-publish format-standard hentry">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/video-the-nuclear-lobbys-push-to-move-people-back-into-irradiated-areas/">VIDEO: the nuclear lobby&#8217;s push to move people back into irradiated&nbsp;areas</a></h2>
+
+                <p id="watch-headline-title" style="text-align:center;"><strong>Belarus has all the information Japan needs</strong></p>
+<p style="text-align:center;"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class='youtube-player' width='560' height='315' src='https://www.youtube.com/embed/Fmvn-BnsPkE?version=3&#038;rel=1&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;fs=1&#038;hl=en&#038;autohide=2&#038;wmode=transparent' allowfullscreen='true' style='border:0;' sandbox='allow-scripts allow-same-origin allow-popups allow-presentation'></iframe></span></p>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 3:13 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  Uncategorized				   |
+                  <a href="https://antinuclear.net/2013/11/12/video-the-nuclear-lobbys-push-to-move-people-back-into-irradiated-areas/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27184" class="entry post-27184 post type-post status-publish format-standard hentry">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/nuclear-establishment-puts-focus-on-stress-denying-the-facts-on-radiation-and-illness/">Nuclear Establishment puts focus on &#8220;stress&#8221;, denying the facts on radiation and&nbsp;illness</a></h2>
+
+                <p><strong><span style="color:#ff0000;">Fear is not the problem – It is our last safeguarding against an invisible enemy</span>  <em>November 11, 2013 by <a title="Posts by Mikkai" href="http://tekknorg.wordpress.com/author/tekknorg/" target="_blank">Mikkai</a></em></strong> <strong>妊娠中の日本人女性の避難すぐ   </strong><strong>Fear and stress are not the problem! They are our last safeguarding! Against an invisible enemy: RADIATION</strong></p>
+<p><a href="http://tekknorg.wordpress.com/2013/04/14/how-the-nuclear-industry-first-kills-the-children-and-then-the-parents/" target="_blank">http://tekknorg.wordpress.com/2013/04/14/how-the-nuclear-industry-first-kills-the-children-and-then-the-parents/</a></p>
+<p><a href="https://antinuclear.files.wordpress.com/2013/11/text-radiophobia.gif"><img loading="lazy" data-attachment-id="27185" data-permalink="https://antinuclear.net/2013/11/12/nuclear-establishment-puts-focus-on-stress-denying-the-facts-on-radiation-and-illness/text-radiophobia/" data-orig-file="https://antinuclear.files.wordpress.com/2013/11/text-radiophobia.gif" data-orig-size="288,191" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="text-radiophobia" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2013/11/text-radiophobia.gif?w=288" data-large-file="https://antinuclear.files.wordpress.com/2013/11/text-radiophobia.gif?w=288" class="alignleft size-full wp-image-27185" alt="text-radiophobia" src="https://antinuclear.files.wordpress.com/2013/11/text-radiophobia.gif?w=288&#038;h=191" width="288" height="191" /></a>The nuclear industry helps irradiating and murdering Children, assisted by IAEA, WHO, ICRP, BEIR, UNSCEAR and local and national health authorities. With Cover Up, Dose Limits and Do not evacuate Policy.</p>
+<p>Here is a belarusian Example: <strong>CORE / ETHOS</strong> Program:</p>
+<p><a href="http://tekknorg.wordpress.com/2011/03/18/core-a-chernobyl-aid-program-that-kills/" target="_blank">http://tekknorg.wordpress.com/2011/03/18/core-a-chernobyl-aid-program-that-kills/</a></p>
+<p>=<em> learn how to live in irradiated areas (<strong>no word about evacuation</strong>) &amp; avoid stress (<strong>instead of radiation protection</strong>) &amp; build industry, infra structure, <strong>accept the radiation</strong>, <strong>resettlement</strong> of people in contaminated areas &lt;- instead of evacuation!</em></p>
+<p><strong>! This is PRO NUCLEAR!</strong></p>
+<p><strong>Now in Japan</strong>: <a href="http://www.globalgiving.org/projects/http-fukushima-kids-org/" target="_blank">http://www.globalgiving.org/projects/http-fukushima-kids-org/</a></p>
+<p><em>“Even in the present, over one year after the Fukushima Daiichi nuclear disaster, there are restrictions on children playing outside in areas of Fukushima”</em></p>
+<p>Of course it is. <strong>Children still live in irradiated areas and are massively more vunerable to it, than their parents. Children = Mitosis = faster cell division = FAST CANCER GROWTH &amp; silent death</strong></p>
+<p><em>“their physical strength has declined greatly due to insufficient exercise and they are also experiencing mental stress.”</em></p>
+<p><strong>Is stress the problem? Or is a Cesium 137 radionuclide in their heart tissue the problem? A plutonium atom in the lungs? Strontium 90 in bones and teeth? Is stress really the problem? <a href="https://antinuclear.net/2013/11/12/nuclear-establishment-puts-focus-on-stress-denying-the-facts-on-radiation-and-illness/#more-27184" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></strong></p>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 3:11 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  Uncategorized				   |
+                  <a href="https://antinuclear.net/2013/11/12/nuclear-establishment-puts-focus-on-stress-denying-the-facts-on-radiation-and-illness/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27182" class="entry post-27182 post type-post status-publish format-standard hentry category-politics category-queensland">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/uranium-industry-wants-special-royalty-discounts-from-queensland-government-despite-its-existing-burdens-on-taxpayerite/">Uranium industry wants special royalty discounts from Queensland government, despite its existing burdens on&nbsp;taxpayerite</a></h2>
+
+                <p><strong> <a href="https://antinuclear.files.wordpress.com/2010/09/exclamation.gif"><img loading="lazy" data-attachment-id="6442" data-permalink="https://antinuclear.net/2010/09/10/cameco-bhp-toro-planning-uranium-transport-through-kalgoorlie-and-south-australia/exclamation/" data-orig-file="https://antinuclear.files.wordpress.com/2010/09/exclamation.gif" data-orig-size="36,113" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="exclamation-" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2010/09/exclamation.gif?w=36" data-large-file="https://antinuclear.files.wordpress.com/2010/09/exclamation.gif?w=36" class="alignleft size-full wp-image-6442" alt="exclamation-" src="https://antinuclear.files.wordpress.com/2010/09/exclamation.gif?w=36&#038;h=113" width="36" height="113" /></a>Royalty discounts for uranium disputed  </strong><a href="http://www.northweststar.com.au/story/1901524/royalty-discounts-for-uranium-disputed/?cs=191" target="_blank">http://www.northweststar.com.au/story/1901524/royalty-discounts-for-uranium-disputed/?cs=191</a> <em><strong>Nov. 11, 2013,  </strong></em>URANIUM projects should receive royalty discounts, according to Queensland Resources Council chief executive Michael Roche. `Royalty relief should be something that&#8217;s offered not just in the Galilee Basin but around Queensland, and I mean it for coal and I mean it for minerals,&#8221; Mr Roche told ABC radio. &#8220;The concept has already been raised in relation to proposed uranium projects, for example.&#8221;</p>
+<div>
+<div><span style="line-height:1.5;"> Anti-nuclear campaign co-ordinator Mark Bailey hit back, saying uranium mining was &#8220;already a huge burden on the taxpayer, with the Mary Kathleen uranium mine near Mount Isa still an environmental mess more than 30 years after it closed.</span></div>
+<p>&#8220;The QRC are irresponsibly pitching to reap in larger uranium profits by paying less royalties at the expense of Queensland taxpayers if they are responsible economic managers.&#8221;</p>
+<p>Mr Bailey called on the Newman government to reinstate the ban on uranium mining, saying it was an ongoing liability on the public purse. `The Newman government has no mandate from the people of Queensland to allow uranium mining as they explicitly ruled it out before the election,&#8221; he said.</p>
+<p>Australian Conservation Foundation nuclear-free campaigner Dave Sweeney said the uranium sector was a minor contributor to employment and the economy, was a major source of domestic and international risks and was overdue for an independent inquiry into its effects on the environment, health, safety and security.</p>
+<p>&#8220;Instead of backroom deals to facilitate an underperforming and contested industry, the LNP government should honour its responsibilities to the community and the environment by commissioning an independent public inquiry into the full costs and consequences of any uranium mining in Queensland,&#8221; Mr Sweeney said.</p>
+</div>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 3:06 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/topics/politics/" rel="category tag">politics</a>, <a href="https://antinuclear.net/category/australia-national/queensland/" rel="category tag">Queensland</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/uranium-industry-wants-special-royalty-discounts-from-queensland-government-despite-its-existing-burdens-on-taxpayerite/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27180" class="entry post-27180 post type-post status-publish format-standard hentry category-australia-national category-politics">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/australias-prime-minister-tony-abbott-repeats-misconceptions-about-renewable-energy/">Australia&#8217;s Prime Minister Tony Abbott repeats misconceptions about renewable&nbsp;energy</a></h2>
+
+                <p><strong><a href="https://antinuclear.files.wordpress.com/2013/07/abbott-destroys-renewables.gif"><img loading="lazy" data-attachment-id="24183" data-permalink="https://antinuclear.net/2013/07/01/tony-abbott-keen-to-rush-coal-development-stifle-renewable-energy/abbott-destroys-renewables/" data-orig-file="https://antinuclear.files.wordpress.com/2013/07/abbott-destroys-renewables.gif" data-orig-size="504,407" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="Abbott-destroys-renewables" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2013/07/abbott-destroys-renewables.gif?w=300" data-large-file="https://antinuclear.files.wordpress.com/2013/07/abbott-destroys-renewables.gif?w=504" class="alignleft size-medium wp-image-24183" alt="Abbott-destroys-renewables" src="https://antinuclear.files.wordpress.com/2013/07/abbott-destroys-renewables.gif?w=300&#038;h=242" width="300" height="242" /></a>Pollie Watch: PM Abbott’s first comments on wind farms, <em>Yes 2 Renewables   November 12, 2013 by Leigh Ewbank</em> </strong>Renewable Energy Target Tony Abbott has made his first comments on wind energy and the Renewable Energy Target as Prime Minister&#8230;&#8230;.The Prime Minister cites two common misperceptions about renewables energy: Firstly, that renewables aren’t up for the job of powering the Australian economy because they’re intermittent. And secondly, that the Renewable Energy Target makes up a significant portion of electricity bills.</p>
+<p>Let’s break down these misconceptions for the Prime Minister to assist his government’s energy policy making.</p>
+<p><span style="color:#ff0000;"><strong>Misconception #1</strong></span>: Australia needs backup for when the wind doesn’t blow and the sun doesn’t shine.</p>
+<p>Reality: It is technically feasible for Australia to meet it’s electricity needs from renewable energy alone.<br />
+<span style="line-height:1.5;">According to the energy experts, shifting to 100 percent renewable energy is both technically viable and affordable. Studies by the think tank Beyond Zero Emissions (</span><a style="line-height:1.5;" href="http://media.bze.org.au/ZCA2020_Stationary_Energy_Report_v1.pdf" target="_blank">PDF</a><span style="line-height:1.5;">), and follow up studies from the Australian Energy Market Operator (</span><a style="line-height:1.5;" href="http://www.climatechange.gov.au/sites/climatechange/files/documents/08_2013/100-percent-renewables-study-modelling-outcomes-report.pdf" target="_blank">PDF</a><span style="line-height:1.5;">) and University of New South Wales (</span><a style="line-height:1.5;" href="http://www.ies.unsw.edu.au/sites/all/files/profile_file_attachments/LeastCostElectricityScenariosInPress2013.pdf" target="_blank">PDF</a><span style="line-height:1.5;">) confirm the technical feasibility of renewable energy. In terms of cost, the 100 percent renewable energy system is </span><a style="line-height:1.5;" href="http://reneweconomy.com.au/2013/energy-costs-business-as-usual-no-cheaper-than-100-renewables-39933" target="_blank">cheaper</a><span style="line-height:1.5;"> the fossil fuel based business-as-usual approach.</span></p>
+<div>
+<p>Modelling is one thing, what about real world applications?</p>
+<p>South Australia is leading the nation with it’s renewable energy rollout. The state now meets 31 percent of it’s electricity demand from renewable energy sources. Wind farms are doing the heavy lifting, providing 27 percent, while the rapidly growing rooftop solar contributes 4 percent. South Australia is <a href="http://yes2renewables.org/2013/09/03/wind-farms-help-sa-speed-towards-50-renewables/" target="_blank">expected</a> to reach 50 percent renewables in a decade.</p>
+<p><strong><em><span style="color:#ff0000;">Misconception #2:</span> Renewable energy is a significant part of power bills, driving up costs. </em></strong></p>
+<p><strong>Reality: John Howard’s Renewable Energy Target makes up a small portion of Australian power bills. The rollout of renewable energy is making power bills cheaper.</strong></p>
+<p>Data from the Australian Energy Market Commission (<a href="http://www.aemc.gov.au/media/docs/ELECTRICITY-PRICE-TRENDS-FINAL-REPORT-609e9250-31cb-4a22-8a79-60da9348d809-0.PDF" target="_blank">PDF</a>) shows the RET accounts for less than one percent of the average household electricity bill – or a mere $35 from a $2000 bill. That’s around $0.70 each week over a year. It is transmission, distribution, and wholesale electricity prices which are the largest contributors to power bills.</p>
+<p>Renewable energy is putting downward pressure on power bills. Energy analysts agree wind farms are causing South Australia’s wholesale electricity prices to drop. This trend resulted in the SA Essential Services Commission <a href="http://reneweconomy.com.au/2012/wind-solar-force-energy-price-cuts-in-south-australia-39705" target="_blank">directing</a> energy companies to cut retail prices cut by 8.1 percent. The move will lower the average power bill by <a href="https://theconversation.com/power-of-the-wind-how-renewables-are-lowering-sa-electricity-bills-9945" target="_blank">$160 a year</a>.</p>
+<p>So, what are Australians getting for their $35 investment in renewable energy? Cheaper bills, less pollution, and action on climate change. Most Australians would agree that’s a win, win&#8230;&#8230;.</p>
+<p>Retired Liberal Senator for Tasmania, Peter Rae shows you can be a proud Liberal and a strong supporter of renewable energy. Mr Rae <a href="http://reneweconomy.com.au/2013/its-not-impossible-to-be-a-conservative-and-support-wind-farms-81067" target="_blank">believes</a> the Liberal party has a tradition to uphold when it comes to supporting renewable energy.</p>
+<p>Mr Rae was vice president of the World Wind Energy Association (now <a href="http://www.wwindea.org/home/index.php?option=com_content&amp;task=view&amp;id=16&amp;Itemid=27" target="_blank">honorary VP</a>) and is <a href="http://www.ren21.net/AboutREN21/SteeringCommittee.aspx" target="_blank">Vice Chairman</a> of the International Renewable Energy Alliance, REN21. With impeccable renewable energy credentials, Mr Rae knows what he’s talking about. Perhaps the PM will draw on the expertise of Peter Rae when undertaking a review of the Renewable Energy Target next year.<a href="http://yes2renewables.org/2013/11/12/pollie-watch-pm-abbotts-first-comments-on-wind-farms-renewable-energy-target/" target="_blank">http://yes2renewables.org/2013/11/12/pollie-watch-pm-abbotts-first-comments-on-wind-farms-renewable-energy-target/</a></p>
+</div>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 3:03 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/australia-national/" rel="category tag">AUSTRALIA - NATIONAL</a>, <a href="https://antinuclear.net/category/topics/politics/" rel="category tag">politics</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/australias-prime-minister-tony-abbott-repeats-misconceptions-about-renewable-energy/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27178" class="entry post-27178 post type-post status-publish format-standard hentry">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/ionising-radiation-its-effects-on-children/">Ionising radiation &#8211; its effects on&nbsp;children</a></h2>
+
+                <p><strong><a href="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif"><img loading="lazy" data-attachment-id="5818" data-permalink="https://antinuclear.net/2010/08/06/russian-fires-re-ignite-chernobyls-radiation-danger/text-ionising/" data-orig-file="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif" data-orig-size="468,111" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="text ionising" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=300" data-large-file="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=468" class="alignleft size-thumbnail wp-image-5818" alt="text ionising" src="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=150&#038;h=35" width="150" height="35" srcset="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=148&amp;h=35 148w, https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=295&amp;h=70 295w, https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=300&amp;h=71 300w" sizes="(max-width: 150px) 100vw, 150px" /></a>How the Nuclear Industry first kills the Children and then the Parents <em>April 14, 2013 by <a title="Posts by Mikkai" href="http://tekknorg.wordpress.com/author/tekknorg/" target="_blank">Mikkai</a>  </em></strong><em><strong>妊娠中の日本人女性の避難すぐ translated by Jan Hemmer, NGO “For the Children of Chernobyl”</strong></em></p>
+<div>
+<p><em><strong>original Text by Dr. Dörte Siedentopf, IPPNW Germany, for the NGO “For the Children of Chernobyl”</strong></em><a href="http://life-upgrade.com/DATA/130219SiedentopfRadioaktivit%C3%A4t.pdf" target="_blank">http://life-upgrade.com/DATA/130219SiedentopfRadioaktivit%C3%A4t.pdf</a></p>
+<p><em> </em><strong>Stochastic effects and children:</strong></p>
+<p><strong>There is statistical health damage caused by the so-called low-level radiation</strong> (above ZERO up to 500mSv.) That is not assigned to any particular people, but occur in a defined population. This issue is the subject of thousands of studies all over the world since the Chernobyl nuclear disaster, and I will discuss in detail below with reference to examples. Factors such as age, gender, health, immune system, nutrition, social situation and the duration of exposure of the radioactivity influence the onset of cancer and other diseases.<strong>Until the Chernobyl disaster, the biological effects in the body of the</strong><br />
+<strong>radioactive isotopes have been undervalued</strong>.</p>
+<p><strong>It is now clear: Any radiation poses a risk especially for children who are extremely radiosensitive.</strong></p>
+<p>1) <strong>A child is constantly increasing in weight and size, it grows from the intrauterine embryo to adult, the younger, the faster.</strong> <strong>Therefore, the cells divide much more frequently than an adult.</strong> <strong>Cells in the division phase (mitosis) are more vulnerable to radiation than cells in the resting phase.</strong></p>
+<p>2) <strong>The ability of the body to recognize “defective” cells and to  eliminate them develops during childhood. An embryo has not yet this ability. Therefore  “defective” cells can multiply unimpeded and later lead to cancer or heritable diseases.</strong></p>
+<p>3) <strong>A child that grows must hold more substances than emiting them, more than an adult.</strong> <strong>The body of a child takes in more radioactive substances in food, drink and air we breathe than adults.</strong> Especially dangerous are 137 and Cs-134 and 137 and Sr-90 – deposited in the muscles or in the bone (see below)&#8230;&#8230;&#8230;&#8230;<a href="http://ekknorg.wordpress.com/2013/04/14/how-the-nuclear-industry-first-kills-the-children-and-then-the-parents/" target="_blank">ekknorg.wordpress.com/2013/04/14/how-the-nuclear-industry-first-kills-the-children-and-then-the-parents/</a></p>
+</div>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 3:01 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  Uncategorized				   |
+                  <a href="https://antinuclear.net/2013/11/12/ionising-radiation-its-effects-on-children/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27176" class="entry post-27176 post type-post status-publish format-standard hentry">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/even-france-now-looking-to-renewable-energy-as-cheaper-than-nuclear/">Even France now looking to renewable energy as cheaper than&nbsp;nuclear</a></h2>
+
+                <p><em>EdF’s major shareholder, the French government, is looking to reduce the share of nuclear in France’s generation to around 50 per cent from more than 70 per cent, and intends to fill that hole with (cheaper) renewables.</em></p>
+<p><em>EdF has effectively handballed the risk of new nuclear to consumer and the UK government. The consumer is picking up the tab through higher electricity bills, and the UK government is using taxpayers money to guarantee 65 per cent of the project cost. </em></p>
+<p><strong><a href="https://antinuclear.files.wordpress.com/2011/11/nukes-hungry.gif"><img loading="lazy" class="alignleft size-thumbnail wp-image-12790" alt="nukes-hungry" src="https://antinuclear.files.wordpress.com/2011/11/nukes-hungry.gif?w=145&#038;h=150" width="145" height="150" /></a>Nuclear Energy Verdict:&#8221; Very Disappointing &#8220;<em> Clean Technica, Giles Parkinson, 112 Nov 13</em></strong> (very good graphs, diagrams) &#8230;..we have received an analysis from Deutsche Bank, which makes some other observations about the cost of nuclear, the comparisons with gas, the price of abatement, and the cost of upkeep for France’s existing fleet.</p>
+<p>The first point made by Deutsche is that this deal underlines the fact that nuclear is not cheap, but really, really expensive – a point that should not be forgotten in Australia, where there is still a push for nuclear in some quarters despite the abundant alternatives (in particular solar) that are not available to the UK. <a href="https://antinuclear.net/2013/11/12/even-france-now-looking-to-renewable-energy-as-cheaper-than-nuclear/#more-27176" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></p>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 2:58 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  Uncategorized				   |
+                  <a href="https://antinuclear.net/2013/11/12/even-france-now-looking-to-renewable-energy-as-cheaper-than-nuclear/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27174" class="entry post-27174 post type-post status-publish format-standard hentry category-australia-national category-energy">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/by-2015-australias-gas-prices-to-triple/">By 2015 Australia&#8217;s gas prices to&nbsp;triple</a></h2>
+
+                <div>
+<p><strong><a href="https://antinuclear.files.wordpress.com/2013/07/dollar-2.png"><img loading="lazy" data-attachment-id="24296" data-permalink="https://antinuclear.net/2013/07/06/uranium-miner-paladin-among-many-suspected-australian-tax-cheats/dollar-2/" data-orig-file="https://antinuclear.files.wordpress.com/2013/07/dollar-2.png" data-orig-size="120,120" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="dollar 2" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2013/07/dollar-2.png?w=120" data-large-file="https://antinuclear.files.wordpress.com/2013/07/dollar-2.png?w=120" class="alignleft size-full wp-image-24296" alt="dollar 2" src="https://antinuclear.files.wordpress.com/2013/07/dollar-2.png?w=120&#038;h=120" width="120" height="120" /></a>Gas Prices Could Triple (Or More) In 2015 <a href="http://www.energymatters.com.au/index.php?main_page=news_article&amp;article_id=4018" target="_blank">http://www.energymatters.com.au/index.php?main_page=news_article&amp;article_id=4018</a>  <em>11 Nov 13</em>,   </strong><span style="line-height:1.5;">According to AGL&#8217;s CEO, east coast gas prices could skyrocket soon. </span> The situation will occur as a result of the effects of LNG plants being constructed at Gladstone. An article on <a href="http://www.theaustralian.com.au/business/mining-energy/gladstone-ramp-up-a-death-blow-for-domestic-demand-michael-fraser/story-e6frg9df-1226756897676" target="_blank">The Australian</a> says when these plants start up in 2015; spot gas price spikes are likely to be exacerbated by demand for Australian gas from Asia.</p>
+<p>&#8220;For industrial and commercial gas users, I have no doubt there will be demand destruction,&#8221; said Mr. Fraser.<br />
+&#8220;You start with baseload gas power generation, that is the first load that will get knocked off because it doesn&#8217;t work without a price on carbon, those gas prices.&#8221;</p>
+<p>The situation will also impact households; but Mr. Fraser claims average per-household annual increases are likely to be less than $100.<br />
+However, with households being pummelled by energy price rises in recent years and the much vaunted carbon tax repeal perhaps <a href="http://www.energymatters.com.au/index.php?main_page=news_article&amp;article_id=4013" target="_blank">unlikely to deliver the savings</a>promised; any further increases in energy bills could be the proverbial straw.</p>
+<p><a href="http://www.energymatters.com.au/index.php?main_page=news_article&amp;article_id=3812" target="_blank">Earlier this year</a>, Matthew Wright, Executive Director of <a href="http://zeroemissions.org.au/" target="_blank">Zero Emissions</a> said common major gas appliances already have an electric competitor that beats them on price and performance; including induction cooktops, <a href="http://www.energymatters.com.au/renewable-energy/solar-power/solar-hot-water/solar-heat-pumps.php" target="_blank">heat pump hot water units</a> and reverse cycle heat pump air-conditioners.  <a href="http://www.energymatters.com.au/index.php?main_page=news_article&amp;article_id=3845" target="_blank">In July</a>, Mr. Wright also forewarned the push to develop more gas fields in Australia had little to do with securing domestic supplies and lowering prices and more to do with export profits.</div>
+<p>&#8220;Do not be fooled by the fossil gas miners &#8211; they&#8217;re not here to give Australia a competitive advantage, only renewable electricity generators can do that as there is no way to export renewable electricity,&#8221; he said.<br />
+Financial costs aside, the other impact of Asia&#8217;s thirst for Australia&#8217;s gas reserves is the cost to the environment from the rush to dot the landscape with coal seam gas wells.</p>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 2:54 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/australia-national/" rel="category tag">AUSTRALIA - NATIONAL</a>, <a href="https://antinuclear.net/category/topics/energy/" rel="category tag">energy</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/by-2015-australias-gas-prices-to-triple/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27172" class="entry post-27172 post type-post status-publish format-standard hentry">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/chernobyl-radiation-caused-birds-to-have-smaller-brains/">Chernobyl radiation caused birds to have smaller&nbsp;brains</a></h2>
+
+                <p><strong><a href="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif"><img loading="lazy" data-attachment-id="5818" data-permalink="https://antinuclear.net/2010/08/06/russian-fires-re-ignite-chernobyls-radiation-danger/text-ionising/" data-orig-file="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif" data-orig-size="468,111" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="text ionising" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=300" data-large-file="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=468" class="alignleft size-thumbnail wp-image-5818" alt="text ionising" src="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=150&#038;h=35" width="150" height="35" srcset="https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=148&amp;h=35 148w, https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=295&amp;h=70 295w, https://antinuclear.files.wordpress.com/2010/08/text-ionising.gif?w=300&amp;h=71 300w" sizes="(max-width: 150px) 100vw, 150px" /></a>Chernobyl Birds Have Smaller Brains <em>PLOS 1 Anders Pape Møller mail, Andea Bonisoli-Alquati, Geir Rudolfsen, Timothy A. Mousseau   </em></strong></p>
+<p><strong>Abstract</strong></p>
+<h3>Background</h3>
+<p><a name="1424a24b9b306eb5_article1.front1.article-meta1.abstract1.sec1.p1"></a></p>
+<p>Animals living in areas contaminated by radioactive material from Chernobyl suffer from increased oxidative stress and low levels of antioxidants. Therefore, normal development of the nervous system is jeopardized as reflected by high frequencies of developmental errors, reduced brain size and impaired cognitive abilities in humans. Alternatively, associations between psychological effects and radiation have been attributed to post-traumatic stress in humans.</p>
+<h3>Methodology/Principal Finding</h3>
+<p><a name="1424a24b9b306eb5_article1.front1.article-meta1.abstract1.sec2.p1"></a></p>
+<p>Here we used an extensive sample of 550 birds belonging to 48 species to test the prediction that even in the absence of post-traumatic stress, there is a negative association between relative brain size and level of background radiation. We found a negative association between brain size as reflected by external head volume and level of background radiation, independent of structural body size and body mass. The observed reduction in brain size in relation to background radiation amounted to 5% across the range of almost a factor 5,000 in radiation level. Species differed significantly in reduction in brain size with increasing background radiation, and brain size was the only morphological character that showed a negative relationship with radiation. Brain size was significantly smaller in yearlings than in older individuals.</p>
+<h3>Conclusions/Significance</h3>
+<p><a name="1424a24b9b306eb5_article1.front1.article-meta1.abstract1.sec3.p1"></a></p>
+<p>Low dose radiation can have significant effects on normal brain development as reflected by brain size and therefore potentially cognitive ability. The fact that brain size was smaller in yearlings than in older individuals implies that there was significant directional selection on brain size with individuals with larger brains experiencing a viability advantage&#8230;&#8230;..<a href="http://www.plosone.org/article/info:doi/10.1371/journal.pone.0016862" target="_blank">http://www.plosone.org/article/info:doi/10.1371/journal.pone.0016862</a></p>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 2:50 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  Uncategorized				   |
+                  <a href="https://antinuclear.net/2013/11/12/chernobyl-radiation-caused-birds-to-have-smaller-brains/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+              <div id="post-27170" class="entry post-27170 post type-post status-publish format-standard hentry category-aboriginal-issues category-australia-national category-history">
+
+                <h2><a href="https://antinuclear.net/2013/11/12/british-takeover-and-their-goal-of-genocide-true-history-of-aboriginal-australia/">British takeover, and their goal of genocide &#8211; true history of Aboriginal&nbsp;Australia</a></h2>
+
+                <p><em>Thus there were no treaties concluded with Aboriginal group and no arrangements were made with them to acquire their land, or to regulate dealings between them and the colonists.</em></p>
+<p><em> Some notable colonial legislation that targeted Aboriginal peoples included:</em></p>
+<p><em>·         1816 Martial Law (NSW). This proclamation declared Martial Law against Indigenous Australians who could then be shot on sight if armed with spears, or even unarmed, if they were within a certain distance of houses or settlements</em></p>
+<p><em>·         1824 (Tasmania). Settlers are authorised to shoot Aboriginal peoples</em></p>
+<p><em>·         1840 (NSW). Indigenous Australians forbidden to use firearms without the permission of a Justice of the Peace</em></p>
+<p><em>·         1869 (Victoria). The Board for the Protection of Aborigines is established. The Governor can order the removal of any child to a reformatory or industrial school</em></p>
+<p><em>·         1890 (NSW). In a denial of human rights the Aborigines Protection Board could forcibly take children off reserves and “resocialise” them&#8230;&#8230;&#8230;</em></p>
+<p><em>Despite the veil of FIRST WORLD superiority we need to remind all First World nations that they are what they are because of the stolen riches of the countries they have turned into THIRD WORLD and continue to keep them as Third World nations by controlling world trade, the international laws, international rights and justice mechanism and the international media</em></p>
+<p><strong><span style="color:#ff0000;"><a href="https://antinuclear.files.wordpress.com/2012/08/text-history.gif"><img loading="lazy" data-attachment-id="18201" data-permalink="https://antinuclear.net/2012/08/27/how-aborigines-were-cheated-out-of-their-land-in-victoria/text-history/" data-orig-file="https://antinuclear.files.wordpress.com/2012/08/text-history.gif" data-orig-size="108,94" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="text-history" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2012/08/text-history.gif?w=108" data-large-file="https://antinuclear.files.wordpress.com/2012/08/text-history.gif?w=108" class="alignleft size-full wp-image-18201" alt="text-history" src="https://antinuclear.files.wordpress.com/2012/08/text-history.gif?w=108&#038;h=94" width="108" height="94" /></a>Britain’s Mass Murder of Indigenous Australians (Aborigines)</span>, <em>Lanka Web  November 9th,</em> 2013 <em>Shenali D Waduge </em></strong> To those that do not know of Britain&#8217;s colonial crimes in their eyes Britain is the epitome of justice, equality, the nation that rears gentlemen of breed and holds the seat of democracy. To those that are aware of British mass murder as ordered by British Governments, the scale of cataloguing these crimes becomes a task in itself and should nullify all claims of any gentlemanly behavior.</p>
+<p>The invasion and decimation of Aboriginal Australia was and is entirely a British affair. When Britain devastates a 65,000 year old culture in just 200 years and carries out unthinkable crimes to take over land and exterminate the indigenous population how do we term Britain other than a mass murderer? The Aboriginal experience is depressingly similar to that of Native Americans in the United States. European settlers viciously drove the Aborigines from their land, massacring thousands with impunity. Why does the world remain silent and ignorant of these crimes against humanity?</p>
+<div>
+<p> When the British arrived in Australia in 1788, Australia was NEVER a white country. It was occupied for over 65,000 years by indigenous black Australians later called ‘Aborigines’ by the British. How did these black Aborigines suddenly disappear? British colonial terrorism is the answer. How would the English, such respectable and gentlemanly people get rid of possibly close to 1million indigenous people and take over their lands after their arrival in 1788? How did the Aborigines become less than 100,000 by 1901? The very respectable English settlers cut their food resources and began genocidal massacres and David Cameron speaks to the world on HUMAN RIGHTS! Aborigines did not invade nations or take over lands – the British did and moreover these Aborigines were not warlike people – their culture and livelihood never left room for dissent of the kind that warranted defense. <a href="https://antinuclear.net/2013/11/12/british-takeover-and-their-goal-of-genocide-true-history-of-aboriginal-australia/#more-27170" class="more-link">Continue reading <span class="meta-nav">&rarr;</span></a></div>
+				
+                <p class="meta">
+
+                <span class="date"><a href="https://antinuclear.net/2013/11/12/">November 12, 2013</a> <!-- at 2:48 am --></span>
+
+								<span class="postedby">
+                  Posted by               	  <a href="https://antinuclear.net/author/christinamacpherson/" title="Posts by Christina MacPherson" rel="author">Christina MacPherson</a> |
+                  <a href="https://antinuclear.net/category/topics/aboriginal-issues/" rel="category tag">aboriginal issues</a>, <a href="https://antinuclear.net/category/australia-national/" rel="category tag">AUSTRALIA - NATIONAL</a>, <a href="https://antinuclear.net/category/topics/history/" rel="category tag">history</a>				   |
+                  <a href="https://antinuclear.net/2013/11/12/british-takeover-and-their-goal-of-genocide-true-history-of-aboriginal-australia/#respond">Leave a comment</a>                  								</span>
+
+             	</p>
+
+             </div>
+
+              
+
+          
+
+        
+		<div class="bottomnavigation">
+
+			<p> &nbsp;&nbsp;&nbsp; </p>
+
+		</div>
+
+      </div>
+
+      
+
+<div id="right">
+<div class="sidebar-about">
+<h2>1.This month </h2>
+<div style="text-align:center;">
+<p style="text-align:left;">For international nuclear news go to   <a href="https://nuclear-news.net/">https://nuclear-news.net   </a></p>
+<p><a href="https://antinuclear.files.wordpress.com/2009/07/text-website.gif"><img loading="lazy" data-attachment-id="5427" data-permalink="https://antinuclear.net/about/text-website/" data-orig-file="https://antinuclear.files.wordpress.com/2009/07/text-website.gif" data-orig-size="108,26" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="text-website" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2009/07/text-website.gif?w=108" data-large-file="https://antinuclear.files.wordpress.com/2009/07/text-website.gif?w=108" class="alignleft size-full wp-image-5427" src="https://antinuclear.files.wordpress.com/2009/07/text-website.gif" alt="" width="108" height="26" /></a></p>
+<p> </p>
+<p style="text-align:left;"><em>of the week</em></p>
+<p style="text-align:left;"><span style="color:#ff0000;"><a style="color:#ff0000;" href="https://dont-nuke-the-climate.org.au/">Nuclear power cannot solve the climate crisi</a>s</span></p>
+<h2><span style="color:#ff0000;">PETITION</span>  <a href="https://www.alp.org.au/petitions/australians-dont-want-nuclear-power/" target="_blank" rel="noreferrer noopener">https://www.alp.org.au/petitions/australians-dont-want-nuclear-power/</a></h2>
+</div>
+<div style="text-align:center;">
+<p class="large-text" style="text-align:left;"><strong><span style="color:#ff0000;"><a href="https://antinuclear.files.wordpress.com/2010/06/see-this-way.gif"><img loading="lazy" data-attachment-id="4835" data-permalink="https://antinuclear.net/2010/06/15/colourful-protestors-climb-on-nuclear-plant/see-this-way/" data-orig-file="https://antinuclear.files.wordpress.com/2010/06/see-this-way.gif" data-orig-size="72,50" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="see-this.way" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2010/06/see-this-way.gif?w=72" data-large-file="https://antinuclear.files.wordpress.com/2010/06/see-this-way.gif?w=72" class="alignleft size-full wp-image-4835" src="https://antinuclear.files.wordpress.com/2010/06/see-this-way.gif" alt="" width="72" height="50" /></a>26 Feb &#8211; 24 April </span><a href="https://aceopen.art/exhibitions/the-image-is-not-nothing-concrete-archives/">The Image is not Nothing</a> (Concrete Archives) </strong> is a group exhibition that explores the ways in which acts of nuclear trauma, Indigenous genocide and cultural erasure have been memorialised by artists and others. It comes as the result of research by curators Lisa Radford and Yhonnie Scarce whose fieldwork has encompassed sites of significance including Auschwitz, Chernobyl, Fukushima, Hiroshima, Maralinga, New York, Wounded Knee and former Yugoslavia.</p>
+<p style="text-align:left;"> </p>
+<p style="text-align:left;"> </p>
+<p style="text-align:left;"> </p>
+</div>
+<p class="gmql0nx0 l94mrbxd p1ri9a11 lzcic4wl d2edcug0 hpfvmrgz" dir="auto"> </p>
+<p dir="auto"> </p>
+<p dir="auto"> </p>
+<p dir="auto"> </p>
+<div style="text-align:center;">
+<p style="text-align:left;"> </p>
+<div style="text-align:left;"> </div>
+<div style="text-align:left;"> </div>
+<p><span style="color:#888888;">&#8212;</span></p>
+<p style="text-align:left;"><strong>Submissions to the  Senate Committee Inquiry into National Radioactive Management Amendment Bill.   </strong><strong>2020</strong>.  <span style="color:#ff0000;"><strong>Go to our summaries of significant submissions, conveniently listed in alphabetical order at <a href="https://antinuclear.net/nuclear-dumping/">Kimba waste dump submissions   </a></strong></span><span style="text-align:center;">or see all submissions listed at </span><a style="text-align:center;" href="https://www.aph.gov.au/Parliamentary_Business/Committees/Senate/Economics/RadioactiveWaste/Submissions?fbclid=IwAR0v5FeP2_iTZbTmkrFA3HNLS29dko4g2NgxUR7UaiuSUyVDh62bDFOLxwA">Read the Submissions</a></p>
+</div>
+<div style="text-align:center;"> </div>
+
+
+<figure class="wp-block-image size-large"><a href="https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg"><img data-attachment-id="87795" data-permalink="https://antinuclear.net/gates-sucker-copy/" data-orig-file="https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg" data-orig-size="526,526" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;1&quot;}" data-image-title="gates-sucker-copy" data-image-description="" data-medium-file="https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg?w=300" data-large-file="https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg?w=526" src="https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg?w=526" alt="" class="wp-image-87795" srcset="https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg 526w, https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg?w=150 150w, https://antinuclear.files.wordpress.com/2021/04/gates-sucker-copy.jpg?w=300 300w" sizes="(max-width: 526px) 100vw, 526px" /></a></figure>
+
+
+<figure class="wp-block-image size-large"></figure>
+
+
+<p><em> Bill Gates, while motivated to help fight climate change, has also long been trying to make a success of his nuclear technology company&nbsp; Terra Power.&nbsp; &nbsp;The climate emergency presents&nbsp;him with the perfect opportunity&nbsp; to promote this, and especially, to get tax&#8211;payer funding to do it, as he suggests in his new book.</em> </p>
+
+
+
+<h2><strong>Elon Musk and Bill Gates: beware of gurus toting solutions to climate change</strong></h2>
+
+
+
+<p>Elon Musk &nbsp;has grand plans to save the world. Bill Gates has just published his book &nbsp;&#8221;How To Avoid a Climate Disaster&#8221;. &nbsp; They both envisage tax-payer funding for their solutions.&nbsp; But beware of gurus toting the solution to the planet&#8217;s crisis.</p>
+
+
+
+<p>If you don&#8217;t think that our home planet is in an ecocidal crisis, then you&#8217;ve been blissfully unaware of global heating, over-population, biodiversity loss, waste crises, plastic pollution, overconsumption of energy , water shortages, deforestation, nuclear danger,  space junk danger,  perpetual nuclear war risk&#8230;&#8230;.</p>
+
+
+
+<p>Visionaries like Bill Gates and Elon Musk have brought extraordinary, and beneficial advances to our human society. On the way, they have become billionaires. And good luck to them. But their wealth&nbsp;and fame has made them all too ready to be seen as world leaders, and to see themselves as having the solutions to world problems.&nbsp; &nbsp;This can be problematic, as in effect, some of their solutions exacerbate the problems.</p>
+
+
+
+<p><br>The future envisioned by both Bill Gates and Elon Musk has one huge blind spot.&nbsp; They both foresee ever-expanding energy use, and they plan for that &#8211;&nbsp;<em>problems can be fixed with technology.</em></p>
+
+
+
+<p>On a finite planet, endless energy use just cannot work.  But the concept of <strong><em>enough</em></strong> is just not in their plans.  If the human species does not take up the concept of <em><strong>enough</strong></em>, we could just become an extinct species. Technology could be used to reduce energy use, but that idea fades away as Gates, Musk, and other technocratic leaders see progress as being to have ever more exciting and energy-guzzling gimmicks and activities.<strong>The digital revolution</strong>. It should be a benefit, enhancing our lives, and in many ways, it <em>IS</em>.  But an energy price is paid in our unbridled use of digital technology.  Every email, emoji, Facebook post, tweet, blogpost, Youtube,   uses electricity.  It&#8217;s not as if these actions  just disappear &#8221;into the cloud&#8221;.  What a dishonest term that is!   There is no such cloud. What there actually IS &#8211;  is a host of vast areas of dirty great data&#8221; farms&#8221;. There&#8217;s another dishonest term.  They&#8217;re not farms. They are soulless collections of great metal servers, using  ever growing amounts of electricity, and of water, to keep them cool.</p>
+
+
+
+<p>Then there&#8217;s the price at the end.&nbsp; It&#8217;s very hard to find out the details and the extent of toxic materials from digital technology, that are dumped in poor countries.<br>And, to be fair, companies like Apple, have made some efforts to reduce their&nbsp;ewaste.&nbsp;<a href="https://www.ewaste-expo.com/is-apple-delivering-on-its-environmental-claims/" target="_blank" rel="noreferrer noopener">https://www.ewaste-expo.com/is-apple-delivering-on-its-environmental-claims/</a></p>
+
+
+
+<p>However, planned obsolescence is rampant in the high tech world, resulting in the utter tragedy of  ewaste pollution, &#8211; from discarded smartphones, laptops, computers, printers, TVs, fidbits, smart fridges, robots etc, the tragedy of the thousands of children working as waste-pickers in India and Africa, in slum conditions. E-waste includes many toxic materials such as lead, arsenic, cadmium, and mercury, that release dioxins. .  &#8221;With no health or environmental protections in the slum, the toxins contaminate the air, water, and the food consumed in the slum&#8230;&#8230;.. The area is constantly covered in thick, toxic smoke from the burning of electrical cables that goes on all day and night,” &#8211; <strong><em>High-tech hell: new documentary brings Africa’s e-waste slum to life</em></strong> <a rel="noreferrer noopener" href="https://news.mongabay.com/2012/04/high-tech-hell-new-documentary-brings-africas-e-waste-slum-to-life/" target="_blank">https://news.mongabay.com/2012/04/high-tech-hell-new-documentary-brings-africas-e-waste-slum-to-life/</a></p>
+
+
+
+<p>Both Gates and Musk are enthusiasts for renewable energy, and in the climate crisis, they are to be applauded for their work in this direction. Yet, as with all kinds of digital technology, renewables should not be unlimited, and do have their downsides, both in the production (pollution from rare earths mining/processing), and in the final disposal,&nbsp;with toxic wastes, and components that are difficult to recycle.&nbsp; .&nbsp;&nbsp;The International Renewable Energy Agency (IRENA) estimates that solar panels produced 250,000 metric tonnes of waste in 2018 alone.</p>
+
+
+
+<p>Bill Gates  and Elon Musk do show their awareness of the planet&#8217;s grave environmental problems, but we don&#8217;t hear from them about energy conservation, or about moving away from the consumer society.   Both talk quite enthusiastically about the great increase in energy use that we can expect. They complacently predict endless energy use, just as the nuclear lobby did in its glossy advertising film &#8221;Pandora&#8217;s Promise&#8221;</p>
+
+
+
+<p>Elon Musk now&nbsp; plans to put 24,000 satellites into space, and is well known for his dream of colonising Mars, and This idea has, of course, been taken up by many others, and there&#8217;s a sort of general public delight in space travel and interstellar rocketry.&nbsp; People seem oblivious to the fact that this will require huge amounts of energy, and that&nbsp; the space scientists already are turning away&nbsp; from clean solar power, to the far more dangerous source of nuclear fission.&nbsp; &nbsp;They&#8217;re also oblivious of the state of affairs in near space, where the trillions of bits of space debris pose dangers, floating about just like the plastic pollution in the oceans.&nbsp; Meanwhile the military planners in USA, Russia, China are already planning for nuclear weapons and war in space.</p>
+
+
+
+<p>No surprise then that Elon Musk sees nuclear power as necessary &#8211; not just for his predicted need for much more electricity on Earth, but for this obsession with satellites and rockets.</p>
+
+
+
+<p>Less well understood than his push for electric cars and Tesla technologies, is Elon Musk&#8217;s investment in the cryptocurrency, Bitcoin.  Running Bitcoin demands enormous amounts of electricity, as Timothy Rooks explained recently <a rel="noreferrer noopener" href="https://www.dw.com/en/why-does-bitcoin-need-more-energy-than-whole-countries/a-56573390" target="_blank">https://www.dw.com/en/why-does-bitcoin-need-more-energy-than-whole-countries/a-56573390</a></p>
+
+
+
+<p>Bill Gates, while motivated to help fight climate change, has also long been trying to make a success of his nuclear technology company&nbsp; Terra Power.&nbsp; &nbsp;The climate emergency presents&nbsp;him with the perfect opportunity&nbsp; to promote this, and especially, to get tax&#8211;payer funding to do it, as he suggests in his new book.</p>
+
+
+
+<p><br>Wake up people!&nbsp; &nbsp; &nbsp;These two gurus have done some good stuff.&nbsp; But don&#8217;t let them manipulate us into&nbsp; dangerous territory &#8211;&nbsp; &nbsp;with nuclear technology, so connected with weaponry, and with its dangers, and the unsolved problem of radioactive trash.&nbsp; Sure, technology has got to be part of solving the planet&#8217;s crises. But we need much more imaginative leadership to steer our species away from infinite consumption and infinite energy use.</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://antinuclearinfo.files.wordpress.com/2021/03/book-nuclear-power-in-stagnation.jpg"><img src="https://antinuclearinfo.files.wordpress.com/2021/03/book-nuclear-power-in-stagnation.jpg?w=1000" alt="" class="wp-image-175092" /></a></figure>
+</div>
+
+<div class="subcontainer">
+  <ul class="rightsub">
+<li id="pages-2" class="widget widget_pages"><h2 class="widgettitle">Pages</h2>
+
+			<ul>
+				<li class="page_item page-item-2 current_page_item"><a href="https://antinuclear.net/about/" aria-current="page">1.This month</a></li>
+<li class="page_item page-item-10"><a href="https://antinuclear.net/action-australia/">Action Australia</a></li>
+<li class="page_item page-item-22295"><a href="https://antinuclear.net/disclaimer/">Disclaimer</a></li>
+<li class="page_item page-item-71143 page_item_has_children"><a href="https://antinuclear.net/federal-nuclear-inquiry-submissions/">Federal Nuclear Inquiry&nbsp;SUBMISSIONS</a>
+<ul class='children'>
+	<li class="page_item page-item-70016"><a href="https://antinuclear.net/federal-nuclear-inquiry-submissions/submissions-to-2019-inquiries/">SUBMISSIONS to 2019&nbsp;INQUIRIES</a></li>
+</ul>
+</li>
+<li class="page_item page-item-44453 page_item_has_children"><a href="https://antinuclear.net/nuclear-dumping/">Kimba waste dump&nbsp;Submissions</a>
+<ul class='children'>
+	<li class="page_item page-item-35921"><a href="https://antinuclear.net/nuclear-dumping/nuclear-royal-commission/">NUCLEAR ROYAL COMMISSION</a></li>
+	<li class="page_item page-item-58844"><a href="https://antinuclear.net/nuclear-dumping/submissions-on-radioactive-waste-code-2018/">Submissions on Radioactive Waste Code&nbsp;2018</a></li>
+	<li class="page_item page-item-59615"><a href="https://antinuclear.net/nuclear-dumping/submissions-to-senate-inquiry-18/">SUBMISSIONS TO SENATE INQUIRY&nbsp;18</a></li>
+</ul>
+</li>
+<li class="page_item page-item-10513"><a href="https://antinuclear.net/information/media/alternative-media/">&#8211; Alternative media</a></li>
+<li class="page_item page-item-8777"><a href="https://antinuclear.net/information/economics/marketing-nuclear-power/">&#8211; marketing nuclear&nbsp;power</a></li>
+<li class="page_item page-item-80"><a href="https://antinuclear.net/information/economics/1-business/">business and costs</a></li>
+<li class="page_item page-item-9836"><a href="https://antinuclear.net/information/11-spinbuster/spinbuster-1/">&#8211; Spinbuster 2011</a></li>
+<li class="page_item page-item-23497"><a href="https://antinuclear.net/information/11-spinbuster/nuclear-and-uranium-spinbuster-theme-for-june-2013/">Nuclear and Uranium Spinbuster &#8211; theme for June&nbsp;2013</a></li>
+<li class="page_item page-item-6284 page_item_has_children"><a href="https://antinuclear.net/information/economics/">economics</a></li>
+<li class="page_item page-item-96 page_item_has_children"><a href="https://antinuclear.net/information/6-health/">health</a></li>
+<li class="page_item page-item-129"><a href="https://antinuclear.net/information/l-wastes/">radiation &#8211; ionising</a></li>
+<li class="page_item page-item-104"><a href="https://antinuclear.net/information/9-safety/">safety</a></li>
+<li class="page_item page-item-67"><a href="https://antinuclear.net/information/indigenous/">Aborigines</a></li>
+<li class="page_item page-item-3704"><a href="https://antinuclear.net/information/video-and-sound/">Audiovisual</a></li>
+<li class="page_item page-item-12496"><a href="https://antinuclear.net/information/successes-of-autralias-anti-nuclearmovement/">Autralia&#8217;s Anti Nuclear Movement &#8211;&nbsp;Successes</a></li>
+<li class="page_item page-item-91"><a href="https://antinuclear.net/information/5-global-warming/">climate change &#8211; global&nbsp;warming</a></li>
+<li class="page_item page-item-88"><a href="https://antinuclear.net/information/3-energy/">energy</a></li>
+<li class="page_item page-item-84"><a href="https://antinuclear.net/information/3-environment/">environment</a></li>
+<li class="page_item page-item-14618"><a href="https://antinuclear.net/information/11-march/">Fukushima Facts</a></li>
+<li class="page_item page-item-7950"><a href="https://antinuclear.net/information/future-australia/">future Australia</a></li>
+<li class="page_item page-item-21976"><a href="https://antinuclear.net/information/health-and-environment-post-fukushma/">HEALTH and ENVIRONMENT &#8211; post&nbsp;Fukushma</a></li>
+<li class="page_item page-item-2118 page_item_has_children"><a href="https://antinuclear.net/information/media/">media Australia</a></li>
+<li class="page_item page-item-33901 page_item_has_children"><a href="https://antinuclear.net/information/peace-movement/">Peace movement</a></li>
+<li class="page_item page-item-5087 page_item_has_children"><a href="https://antinuclear.net/information/draft-july-1/">politics</a></li>
+<li class="page_item page-item-2122"><a href="https://antinuclear.net/information/additional-issues/">religion &#8211; Australia</a></li>
+<li class="page_item page-item-1823 page_item_has_children"><a href="https://antinuclear.net/information/religion-and-ethics/">religion and ethics</a></li>
+<li class="page_item page-item-44450"><a href="https://antinuclear.net/information/religion-and-ethics-2/">Religion and Ethics</a></li>
+<li class="page_item page-item-107 page_item_has_children"><a href="https://antinuclear.net/information/10-secrets-and-lies/">secrets and lies</a></li>
+<li class="page_item page-item-113 page_item_has_children"><a href="https://antinuclear.net/information/11-spinbuster/">spinbuster</a></li>
+<li class="page_item page-item-10033"><a href="https://antinuclear.net/information/spinbuster-2-may/">Spinbuster</a></li>
+<li class="page_item page-item-4580"><a href="https://antinuclear.net/information/draft-june-aust/">wastes</a></li>
+<li class="page_item page-item-1829"><a href="https://antinuclear.net/resources-and-links/australian-links/">Australian links</a></li>
+<li class="page_item page-item-7584"><a href="https://antinuclear.net/information/religion-and-ethics/ethics-and-nuclear-power-australia/">ethics and nuclear power &#8211;&nbsp;Australia</a></li>
+<li class="page_item page-item-6638"><a href="https://antinuclear.net/information/6-health/draft-october/">nuclear medicine</a></li>
+<li class="page_item page-item-101"><a href="https://antinuclear.net/information/draft-july-1/8-politics/">politics &#8211; election&nbsp;2010</a></li>
+<li class="page_item page-item-6885"><a href="https://antinuclear.net/information/10-secrets-and-lies/nuclear-secrecy-australia/">secrecy &#8211; Australia</a></li>
+<li class="page_item page-item-137"><a href="https://antinuclear.net/information/peace-movement/m-weapons-and-war/">weapons and war</a></li>
+			</ul>
+
+			</li>
+<li id="follow_button_widget-3" class="widget widget_follow_button_widget">
+		<a class="wordpress-follow-button" href="https://antinuclear.net" data-blog="8645821" data-lang="en" data-show-follower-count="true">Follow Antinuclear on WordPress.com</a>
+		<script type="text/javascript">(function(d){var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');p.type = 'text/javascript';p.async = true;p.src = '//widgets.wp.com/platform.js';f.parentNode.insertBefore(p,f);}(document));</script>
+
+		</li>
+<li id="follow_button_widget-5" class="widget widget_follow_button_widget">
+		<a class="wordpress-follow-button" href="https://antinuclear.net" data-blog="8645821" data-lang="en" data-show-blog-name="false">Follow Antinuclear on WordPress.com</a>
+		<script type="text/javascript">(function(d){var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');p.type = 'text/javascript';p.async = true;p.src = '//widgets.wp.com/platform.js';f.parentNode.insertBefore(p,f);}(document));</script>
+
+		</li>
+			<div id="atatags-286348-6071b0a510908"></div>
+			
+			<script>
+				__ATA.cmd.push(function() {
+					__ATA.initDynamicSlot({
+						id: 'atatags-286348-6071b0a510908',
+						location: 140,
+						formFactor: '003',
+						label: {
+							text: 'Advertisements',
+						},
+						creative: {
+							reportAd: {
+								text: 'Report this ad',
+							},
+							privacySettings: {
+								text: 'Privacy',
+								
+							}
+						}
+					});
+				});
+			</script>  </ul>
+
+  <ul class="rightsub2">
+<li id="linkcat-1356" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.foe.org.au/anti-nuclear">Anti-Nuclear and Clean Energy Campaign</a></li>
+<li><a href="http://www.beyondnuclear.org/">Beyond Nuclear</a></li>
+<li><a href="https://thoriumnuclear.wordpress.com/" title="Nuclear industry&#8217;s last gasp &#8211; the thorium mirage">Exposing the truth about thorium nuclear propaganda</a></li>
+<li><a href="http://nuclearinformation.wordpress.com/" title="Factual information on nuclear issues">NUCLEAR INFORMATION</a></li>
+<li><a href="http://nuclearnewsaustralia.wordpress.com/">nuclear news Australia</a></li>
+<li><a href="http://nuclear-news.net/" title="nuclear news from around the world">nuclear-news</a></li>
+
+	</ul>
+</li>
+
+<li id="categories-2" class="widget widget_categories"><h2 class="widgettitle">Categories</h2>
+
+			<ul>
+					<li class="cat-item cat-item-5584"><a href="https://antinuclear.net/category/1/">1</a>
+</li>
+	<li class="cat-item cat-item-1030"><a href="https://antinuclear.net/category/action/">ACTION</a>
+</li>
+	<li class="cat-item cat-item-178340"><a href="https://antinuclear.net/category/audiovisual/">Audiovisual</a>
+</li>
+	<li class="cat-item cat-item-23126098"><a href="https://antinuclear.net/category/australia-national/">AUSTRALIA &#8211; NATIONAL</a>
+<ul class='children'>
+	<li class="cat-item cat-item-33024"><a href="https://antinuclear.net/category/australia-national/act/">ACT</a>
+</li>
+	<li class="cat-item cat-item-5142"><a href="https://antinuclear.net/category/australia-national/international/">INTERNATIONAL</a>
+</li>
+	<li class="cat-item cat-item-136797"><a href="https://antinuclear.net/category/australia-national/new-south-wales/">New South Wales</a>
+</li>
+	<li class="cat-item cat-item-36529"><a href="https://antinuclear.net/category/australia-national/northern-territory/">Northern Territory</a>
+</li>
+	<li class="cat-item cat-item-36527"><a href="https://antinuclear.net/category/australia-national/queensland/">Queensland</a>
+</li>
+	<li class="cat-item cat-item-36524"><a href="https://antinuclear.net/category/australia-national/south-australia/">South Australia</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-544060841"><a href="https://antinuclear.net/category/australia-national/south-australia/nuclear-royal-commission-2016/">NUCLEAR ROYAL COMMISSION 2016</a>
+		<ul class='children'>
+	<li class="cat-item cat-item-544061126"><a href="https://antinuclear.net/category/australia-national/south-australia/nuclear-royal-commission-2016/nuclear-citizens-jury/">Nuclear Citizens Jury</a>
+</li>
+	<li class="cat-item cat-item-381934353"><a href="https://antinuclear.net/category/australia-national/south-australia/nuclear-royal-commission-2016/submissions-to-royal-commission-s-a/">Submissions to Royal Commission S.A.</a>
+			<ul class='children'>
+	<li class="cat-item cat-item-480791053"><a href="https://antinuclear.net/category/australia-national/south-australia/nuclear-royal-commission-2016/submissions-to-royal-commission-s-a/significant-submissions-to-6-may/">significant submissions to 6 May</a>
+</li>
+			</ul>
+</li>
+		</ul>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-13666"><a href="https://antinuclear.net/category/australia-national/tasmania/">Tasmania</a>
+</li>
+	<li class="cat-item cat-item-36523"><a href="https://antinuclear.net/category/australia-national/victoria/">Victoria</a>
+</li>
+	<li class="cat-item cat-item-36525"><a href="https://antinuclear.net/category/australia-national/western-australia/">Western Australia</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-24659757"><a href="https://antinuclear.net/category/christina-reviews/">Christina reviews</a>
+</li>
+	<li class="cat-item cat-item-55272315"><a href="https://antinuclear.net/category/christina-themes/">Christina themes</a>
+</li>
+	<li class="cat-item cat-item-1580"><a href="https://antinuclear.net/category/general-news/">General News</a>
+</li>
+	<li class="cat-item cat-item-5738215"><a href="https://antinuclear.net/category/olympic-dam/">Olympic Dam</a>
+</li>
+	<li class="cat-item cat-item-38748519"><a href="https://antinuclear.net/category/opposition-to-nuclear/">Opposition to nuclear</a>
+</li>
+	<li class="cat-item cat-item-10919"><a href="https://antinuclear.net/category/reference/">reference</a>
+</li>
+	<li class="cat-item cat-item-1344512"><a href="https://antinuclear.net/category/religion-and-ethics/">religion and ethics</a>
+</li>
+	<li class="cat-item cat-item-1784"><a href="https://antinuclear.net/category/resources/">Resources</a>
+</li>
+	<li class="cat-item cat-item-2133"><a href="https://antinuclear.net/category/topics/">TOPICS</a>
+<ul class='children'>
+	<li class="cat-item cat-item-422762"><a href="https://antinuclear.net/category/topics/aboriginal-issues/">aboriginal issues</a>
+</li>
+	<li class="cat-item cat-item-101912"><a href="https://antinuclear.net/category/topics/art-and-culture/">art and culture</a>
+</li>
+	<li class="cat-item cat-item-179"><a href="https://antinuclear.net/category/topics/business/">business</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-7915"><a href="https://antinuclear.net/category/topics/business/employment/">employment</a>
+</li>
+	<li class="cat-item cat-item-51431937"><a href="https://antinuclear.net/category/topics/business/marketing-for-nuclear/">marketing for nuclear</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-1957"><a href="https://antinuclear.net/category/topics/civil-liberties/">civil liberties</a>
+</li>
+	<li class="cat-item cat-item-440364"><a href="https://antinuclear.net/category/topics/climate-change-global-warming/">climate change &#8211; global warming</a>
+</li>
+	<li class="cat-item cat-item-1098"><a href="https://antinuclear.net/category/topics/culture/">culture</a>
+</li>
+	<li class="cat-item cat-item-1212"><a href="https://antinuclear.net/category/topics/energy/">energy</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-47945"><a href="https://antinuclear.net/category/topics/energy/efficiency/">efficiency</a>
+</li>
+	<li class="cat-item cat-item-45212"><a href="https://antinuclear.net/category/topics/energy/solar/">solar</a>
+</li>
+	<li class="cat-item cat-item-3386"><a href="https://antinuclear.net/category/topics/energy/storage/">storage</a>
+</li>
+	<li class="cat-item cat-item-42316"><a href="https://antinuclear.net/category/topics/energy/wind/">wind</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-184"><a href="https://antinuclear.net/category/topics/environment/">environment</a>
+</li>
+	<li class="cat-item cat-item-337"><a href="https://antinuclear.net/category/topics/health/">health</a>
+</li>
+	<li class="cat-item cat-item-678"><a href="https://antinuclear.net/category/topics/history/">history</a>
+</li>
+	<li class="cat-item cat-item-2283"><a href="https://antinuclear.net/category/topics/legal/">legal</a>
+</li>
+	<li class="cat-item cat-item-292"><a href="https://antinuclear.net/category/topics/media/">media</a>
+</li>
+	<li class="cat-item cat-item-101893616"><a href="https://antinuclear.net/category/topics/opposition-to-nuclear-topics/">opposition to nuclear</a>
+</li>
+	<li class="cat-item cat-item-660"><a href="https://antinuclear.net/category/topics/people/">people</a>
+</li>
+	<li class="cat-item cat-item-34537"><a href="https://antinuclear.net/category/topics/personal-stories/">personal stories</a>
+</li>
+	<li class="cat-item cat-item-398"><a href="https://antinuclear.net/category/topics/politics/">politics</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-28531293"><a href="https://antinuclear.net/category/topics/politics/election-2013/">election 2013</a>
+</li>
+	<li class="cat-item cat-item-9910353"><a href="https://antinuclear.net/category/topics/politics/election-2016/">election 2016</a>
+</li>
+	<li class="cat-item cat-item-204330547"><a href="https://antinuclear.net/category/topics/politics/election-2019/">election 2019</a>
+</li>
+	<li class="cat-item cat-item-685481462"><a href="https://antinuclear.net/category/topics/politics/submissions-federal-19/">Submissions Federal 19</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-220559"><a href="https://antinuclear.net/category/topics/politics-international/">politics international</a>
+</li>
+	<li class="cat-item cat-item-287248380"><a href="https://antinuclear.net/category/topics/religion-and-ethics-topics/">religion and ethics</a>
+</li>
+	<li class="cat-item cat-item-14812"><a href="https://antinuclear.net/category/topics/safety/">safety</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-33304"><a href="https://antinuclear.net/category/topics/safety/incidents/">&#8211; incidents</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-714009"><a href="https://antinuclear.net/category/topics/secrets-and-lies/">secrets and lies</a>
+</li>
+	<li class="cat-item cat-item-10197656"><a href="https://antinuclear.net/category/topics/spinbuster/">spinbuster</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-1342"><a href="https://antinuclear.net/category/topics/spinbuster/education/">Education</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-6"><a href="https://antinuclear.net/category/topics/technology/">technology</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-20591386"><a href="https://antinuclear.net/category/topics/technology/rare-earths/">rare earths</a>
+</li>
+	<li class="cat-item cat-item-1048884"><a href="https://antinuclear.net/category/topics/technology/thorium/">thorium</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-47687"><a href="https://antinuclear.net/category/topics/uranium/">uranium</a>
+</li>
+	<li class="cat-item cat-item-35365486"><a href="https://antinuclear.net/category/topics/wastes-topics/">wastes</a>
+	<ul class='children'>
+	<li class="cat-item cat-item-549390898"><a href="https://antinuclear.net/category/topics/wastes-topics/federal-nuclear-waste-dump/">Federal nuclear waste dump</a>
+</li>
+	</ul>
+</li>
+	<li class="cat-item cat-item-10163161"><a href="https://antinuclear.net/category/topics/weapons-and-war/">weapons and war</a>
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-14157"><a href="https://antinuclear.net/category/water/">water</a>
+</li>
+	<li class="cat-item cat-item-629753"><a href="https://antinuclear.net/category/wikileaks/">Wikileaks</a>
+</li>
+	<li class="cat-item cat-item-598"><a href="https://antinuclear.net/category/women/">women</a>
+</li>
+			</ul>
+
+			</li>
+<li id="search-3" class="widget widget_search"><form role="search" method="get" id="searchform" class="searchform" action="https://antinuclear.net/">
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form></li>
+  </ul>
+</div>
+</div>
+
+      
+<div id="footer">
+	<h2 class="hide">Site info</h2>
+	<span>Antinuclear</span><br />
+	 <a href="https://wordpress.com/?ref=footer_website" rel="nofollow">Create a free website or blog at WordPress.com.</a>
+</div>
+
+
+    </div>
+
+  </div>
+
+<!--  -->
+<script src='//0.gravatar.com/js/gprofiles.js?ver=202114y' id='grofiles-cards-js'></script>
+<script id='wpgroho-js-extra'>
+var WPGroHo = {"my_hash":""};
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1610363240h'></script>
+
+	<script>
+		// Initialize and attach hovercards to all gravatars
+		( function() {
+			function init() {
+				if ( typeof Gravatar === 'undefined' ) {
+					return;
+				}
+
+				if ( typeof Gravatar.init !== 'function' ) {
+					return;
+				}
+
+				Gravatar.profile_cb = function ( hash, id ) {
+					WPGroHo.syncProfileData( hash, id );
+				};
+
+				Gravatar.my_hash = WPGroHo.my_hash;
+				Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+			}
+
+			if ( document.readyState !== 'loading' ) {
+				init();
+			} else {
+				document.addEventListener( 'DOMContentLoaded', init );
+			}
+		} )();
+	</script>
+
+		<div style="display:none">
+	</div>
+		<!-- CCPA [start] -->
+		<script type="text/javascript">
+			( function () {
+
+				var setupPrivacy = function() {
+
+					// Minimal Mozilla Cookie library
+					// https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie/Simple_document.cookie_framework
+					var cookieLib = window.cookieLib = {getItem:function(e){return e&&decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*"+encodeURIComponent(e).replace(/[\-\.\+\*]/g,"\\$&")+"\\s*\\=\\s*([^;]*).*$)|^.*$"),"$1"))||null},setItem:function(e,o,n,t,r,i){if(!e||/^(?:expires|max\-age|path|domain|secure)$/i.test(e))return!1;var c="";if(n)switch(n.constructor){case Number:c=n===1/0?"; expires=Fri, 31 Dec 9999 23:59:59 GMT":"; max-age="+n;break;case String:c="; expires="+n;break;case Date:c="; expires="+n.toUTCString()}return"rootDomain"!==r&&".rootDomain"!==r||(r=(".rootDomain"===r?".":"")+document.location.hostname.split(".").slice(-2).join(".")),document.cookie=encodeURIComponent(e)+"="+encodeURIComponent(o)+c+(r?"; domain="+r:"")+(t?"; path="+t:"")+(i?"; secure":""),!0}};
+
+					// Implement IAB USP API.
+					window.__uspapi = function( command, version, callback ) {
+
+						if ( typeof callback !== 'function' ) {
+							return;
+						}
+
+						if ( command !== 'getUSPData' || version !== 1 ) {
+							callback( null, false );
+							return;
+						}
+
+						// Check for GPC.
+						if ( navigator.globalPrivacyControl ) {
+							callback( { version: 1, uspString: '1YYN' }, true );
+							return;
+						}
+
+						// Check for cookie.
+						var consent = cookieLib.getItem( 'usprivacy' );
+
+						if ( null === consent ) {
+							callback( null, false );
+							return;
+						}
+
+						callback( { version: 1, uspString: consent }, true );
+					};
+
+					// Initialization.
+					document.addEventListener( 'DOMContentLoaded', function() {
+
+						var setDefaultOptInCookie = function() {
+							var value = '1YNN';
+							var domain = '.wordpress.com' === location.hostname.slice( -14 ) ? '.rootDomain' : location.hostname;
+							cookieLib.setItem( 'usprivacy', value, 365 * 24 * 60 * 60, '/', domain );
+						};
+
+						var setCcpaAppliesCookie = function( value ) {
+							var domain = '.wordpress.com' === location.hostname.slice( -14 ) ? '.rootDomain' : location.hostname;
+							cookieLib.setItem( 'ccpa_applies', value, 24 * 60 * 60, '/', domain );
+						}
+
+						var maybeCallDoNotSellCallback = function() {
+							if ( 'function' === typeof window.doNotSellCallback ) {
+								return window.doNotSellCallback();
+							}
+
+							return false;
+						}
+
+						var usprivacyCookie = cookieLib.getItem( 'usprivacy' );
+
+						if ( null !== usprivacyCookie ) {
+							maybeCallDoNotSellCallback();
+							return;
+						}
+
+						var ccpaCookie = cookieLib.getItem( 'ccpa_applies' );
+
+						if ( null === ccpaCookie ) {
+
+							var request = new XMLHttpRequest();
+							request.open( 'GET', 'https://public-api.wordpress.com/geo/', true );
+
+							request.onreadystatechange = function () {
+								if ( 4 === this.readyState ) {
+									if ( 200 === this.status ) {
+
+										var data = JSON.parse( this.response );
+										var ccpa_applies = data['region'] && data['region'].toLowerCase() === 'california';
+
+										setCcpaAppliesCookie( ccpa_applies );
+
+										if ( ccpa_applies ) {
+											if ( maybeCallDoNotSellCallback() ) {
+												setDefaultOptInCookie();
+											}
+										}
+									} else {
+										setCcpaAppliesCookie( true );
+										if ( maybeCallDoNotSellCallback() ) {
+											setDefaultOptInCookie();
+										}
+									}
+								}
+							};
+
+							request.send();
+						} else {
+							if ( ccpaCookie === 'true' ) {
+								if ( maybeCallDoNotSellCallback() ) {
+									setDefaultOptInCookie();
+								}
+							}
+						}
+					} );
+				};
+
+				if ( window.defQueue && defQueue.isLOHP && defQueue.isLOHP === 2020 ) {
+					defQueue.items.push( setupPrivacy );
+				} else {
+					setupPrivacy();
+				}
+
+			} )();
+		</script>
+
+		<!-- CCPA [end] -->
+		
+<script>
+window.addEventListener( "load", function( event ) {
+	var link = document.createElement( "link" );
+	link.href = "https://s0.wp.com/wp-content/mu-plugins/actionbar/actionbar.css?v=20201002";
+	link.type = "text/css";
+	link.rel = "stylesheet";
+	document.head.appendChild( link );
+
+	var script = document.createElement( "script" );
+	script.src = "https://s0.wp.com/wp-content/mu-plugins/actionbar/actionbar.js?v=20201002";
+	script.defer = true;
+	document.body.appendChild( script );
+} );
+</script>
+
+	
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<label for="carousel-reblog-content" id="carousel-reblog-lblogcontent" class="screen-reader-text">Add your thoughts here... (optional)</label>
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="8645821" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://antinuclear.net" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Antinuclear" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="cc45aa98e2" /><input type="hidden" name="_wp_http_referer" value="/2013/11/12/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+		<div
+			class="jp-carousel-wrap jp-carousel-transitions"
+			itemscope
+			itemtype="https://schema.org/ImageGallery"
+			style="display: none;">
+			<div class="jp-carousel-overlay"></div>
+			<div class="jp-carousel"></div>
+			<div class="jp-carousel-fadeaway"></div>
+			<div class="jp-carousel-info">
+				<div class="jp-carousel-photo-info">
+					<h2 class="jp-carousel-caption" itemprop="caption description"></h2>
+				</div>
+				<div class="jp-carousel-info-columns">
+					<div class="jp-carousel-left-column-wrapper">
+						<div class="jp-carousel-titleanddesc"></div>
+						<!-- Intentional duplicate -->
+						<div class="jp-carousel-photo-info">
+							<h2 class="jp-carousel-caption" itemprop="caption description"></h2>
+						</div>
+													<div id="jp-carousel-comment-form-container">
+																											<form id="jp-carousel-comment-form">
+											<textarea
+												name="comment"
+												class="jp-carousel-comment-form-field jp-carousel-comment-form-textarea"
+												id="jp-carousel-comment-form-comment-field"
+												placeholder="Write a Comment..."
+											></textarea>
+											<div id="jp-carousel-comment-form-submit-and-info-wrapper">
+												<div id="jp-carousel-comment-form-commenting-as">
+																											<fieldset>
+															<label for="email">Email (Required)</label>
+															<input type="text" name="email" class="jp-carousel-comment-form-field jp-carousel-comment-form-text-field" id="jp-carousel-comment-form-email-field" />
+														</fieldset>
+														<fieldset>
+															<label for="author">Name (Required)</label>
+															<input type="text" name="author" class="jp-carousel-comment-form-field jp-carousel-comment-form-text-field" id="jp-carousel-comment-form-author-field" />
+														</fieldset>
+														<fieldset>
+															<label for="url">Website</label>
+															<input type="text" name="url" class="jp-carousel-comment-form-field jp-carousel-comment-form-text-field" id="jp-carousel-comment-form-url-field" />
+														</fieldset>
+																									</div>
+												<input
+													type="submit"
+													name="submit"
+													class="jp-carousel-comment-form-button"
+													id="jp-carousel-comment-form-button-submit"
+													value="Post Comment" />
+												<span id="jp-carousel-comment-form-spinner">&nbsp;</span>
+												<div id="jp-carousel-comment-post-results"></div>
+											</div>
+										</form>
+																								</div>
+							<div class="jp-carousel-comments"></div>
+							<div id="jp-carousel-comments-loading">
+								<span>Loading Comments...</span>
+							</div>
+											</div>
+					<div class="jp-carousel-image-meta">
+						<div class="jp-carousel-buttons">
+														<a class="jp-carousel-commentlink" href="#">Comment</a>
+																				</div>
+						<ul class="jp-carousel-image-exif" style="display: none;"></ul>
+						<a class="jp-carousel-image-download" style="display: none;"></a>
+						<div class="jp-carousel-image-map" style="display: none;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="jp-carousel-next-button" style="display: none;">
+				<span></span>
+			</div>
+			<div class="jp-carousel-previous-button" style="display: none;">
+				<span></span>
+			</div>
+			<div class="jp-carousel-close-hint"><span>&times;</span></div>
+		</div>
+
+		<div class="widget widget_eu_cookie_law_widget">
+<div
+	class="hide-on-button ads-active"
+	data-hide-timeout="30"
+	data-consent-expiration="180"
+	id="eu-cookie-law"
+>
+	<form method="post">
+		<input type="submit" value="Close and accept" class="accept" />
+
+		Privacy &amp; Cookies: This site uses cookies. By continuing to use this website, you agree to their use. <br />
+To find out more, including how to control cookies, see here:
+				<a href="https://automattic.com/cookies" rel="nofollow">
+			Cookie Policy		</a>
+ </form>
+</div>
+</div><link rel='stylesheet' id='all-css-0-2' href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1614628167h&cssminify=yes' type='text/css' media='all' />
+<script id='jetpack-carousel-js-extra'>
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/antinuclear.net\/wp-admin\/admin-ajax.php","nonce":"f9bd40d291","display_exif":"1","display_comments":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/antinuclear.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fantinuclear.net%2F2013%2F11%2F12%2Faustralias-coal-and-gas-profits-at-the-cost-of-climate-change%2F","blog_id":"8645821","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=8645821&v=wpcom&tz=0&user_id=0&subd=antinuclear","is_public":"1","reblog_enabled":""};
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJx9jksKwzAMRC9UR7iUtJvSsyi2CHb8w5KbHr/aBEoX2WlmeA/B3oyrRagIRAZP7+CofabIF/iZ8jAtjTUUhj34lYSBhq51C2QS7iCUW0Khv/7Egz6HYhbskJGFul5GOrqNDygUl4ZXpT6mkfJCflLoROqw18GUIJI0dZmjUOaVn3a2t/n6sPM9fgGPrFu2'></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?61" defer></script> <script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'8645821','blog_tz':'0','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'8645821','v':'wpcom','tz':'0','user_id':'0','subd':'antinuclear'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWtpP0NsWnVkPS9sL0ViLndld3BuVT01Unp2dX5PUGhnW3hXaldKMUVKb0N0QVlBJk5LQWJaNE50Z0VkLkhteHx0SlB4Q3JmQmEwWHF8MjBaMix1V09DN11tcU11RnJMdD1XPWRTWFg2VSYzemdFVTc3TktCY01XRD02TEMtK0RXdmliLFtVYmg/R0U2T3ltWV9HYVosTE4yZllhdWcydllLfERMRWwsZGVBaVVtTjJCSF9VcHJhbXxLMFVjNlpKZTRRcFZ3LWt+TC5LJTJ6MSxaT1MwSE9tRnNjaFdKZCtzfEJDcWYubmxvaDZdeD1lfFFy'}]);
+_stq.push([ 'clickTrackerInit', '8645821', '0' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:1px;width:1px;overflow:hidden;position:absolute;bottom:1px;" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
