@@ -32,7 +32,7 @@ We have already uploaded Chuweb21 and Chuweb21D-60 to the web disk (Chuweb21D-70
 
 | Dataset     | Link (Chinese mainland) | Link (others)    | Md5 code |
 | ----------- | ----------------------- | ---------------- | -------- |
-| Chuweb21    | [Baidu Cloud](https://pan.baidu.com/s/1TusrCeJWe0TPJZUy9mwpYA) (code: t828) | [Google Drive](https://drive.google.com/drive/folders/11hi_R6cSIHEZx3QwyG5KQjgRVmxXhWta) |          |
+| Chuweb21    | [Baidu Cloud](https://pan.baidu.com/s/1TusrCeJWe0TPJZUy9mwpYA) (code: t828) | [Google Drive](https://drive.google.com/drive/folders/11hi_R6cSIHEZx3QwyG5KQjgRVmxXhWta) | [md5.txt](https://github.com/chuzhumin98/Chuweb21D/blob/main/materials/md5/md5_checksum-Chuweb21.txt) |
 | Chuweb21-60 |  [Baidu Cloud](https://pan.baidu.com/s/1-QKEE0eklYJBLyCLujJXOA) (code: a6j2)  | [TeraBox](https://terabox.com/s/1fZm9SRUiFiDjaKpbzrlPLQ) (code: wtsh) | coming soon! |
 | Chuweb21-70 |  coming soon!        | coming soon! | coming soon! |
 
@@ -74,6 +74,9 @@ with warc.open("sample.warc.gz") as f:
 E-mail: thuir_datamanage@126.com
 
 Zhumin Chu (Tsinghua University, P.R.C.)
+
 Tetsuya Sakai (Waseda University, Japan)
+
 Qingyao Ai (Tsinghua University, P.R.C.)
+
 Yiqun Liu (Tsinghua University, P.R.C.)
