@@ -34,7 +34,7 @@ We have already uploaded Chuweb21 and Chuweb21D-60 to the web disk (Chuweb21D-70
 | ----------- | ----------------------- | ---------------- | -------- |
 | Chuweb21    | [Baidu Cloud](https://pan.baidu.com/s/1TusrCeJWe0TPJZUy9mwpYA) (code: t828) | [Google Drive](https://drive.google.com/drive/folders/11hi_R6cSIHEZx3QwyG5KQjgRVmxXhWta) | [md5.txt](https://github.com/chuzhumin98/Chuweb21D/blob/main/materials/md5/md5_checksum-Chuweb21.txt) |
 | Chuweb21D-60 |  [Baidu Cloud](https://pan.baidu.com/s/1-QKEE0eklYJBLyCLujJXOA) (code: a6j2)  | [TeraBox](https://terabox.com/s/1fZm9SRUiFiDjaKpbzrlPLQ) (code: wtsh) | [md5.txt](https://github.com/chuzhumin98/Chuweb21D/blob/main/materials/md5/md5_checksum-Chuweb21D-60.txt) |
-| Chuweb21D-70 |  [Baidu Cloud](https://pan.baidu.com/s/1L_BO7_t6LaIYPcmJa7P1oA) (code: v6xh)  | [TeraBox](https://terabox.com/s/1GrwPTm7KuYMLAHVmGrwc_w) (code: 75im) | [md5.txt](https://github.com/chuzhumin98/Chuweb21D/blob/main/materials/md5/md5_checksum-Chuweb21D-70.txt) |
+| Chuweb21D-70 |  [Baidu Cloud](https://pan.baidu.com/s/1L_BO7_t6LaIYPcmJa7P1oA) (code: v6xh)  | Part1: [TeraBox](https://terabox.com/s/1GrwPTm7KuYMLAHVmGrwc_w) (code: 75im)<br>Part2: [TeraBox](https://terabox.com/s/1OHPn1fqTIcFE_7HJIY3ATg) (code: spq8) | [md5.txt](https://github.com/chuzhumin98/Chuweb21D/blob/main/materials/md5/md5_checksum-Chuweb21D-70.txt) |
 
 In addition to web disk download, we also support both hard disk shipping (only for users in Chinese mainland) and server SCP for data delivery. You can contact us via e-mail (thuir_datamanage@126.com) if needed.
 
